@@ -6,6 +6,7 @@ import java.awt.event.*;
 
 public class MyCanvas extends JComponent{
     ArrayList<Shape> shapes = new ArrayList<Shape>();
+    ArrayList<JComponent> theComponentsList = new ArrayList<JComponent>();
 
     private int DrawingOption = 0;
 
@@ -22,8 +23,12 @@ public class MyCanvas extends JComponent{
 
             //鼠标松开是可以创建一个矩形，将起始点归零
             public void mouseReleased(MouseEvent e) {
-                Shape r = makeRectangle(startDrag.x, startDrag.y, e.getX(), e.getY());
-                shapes.add(r);
+//                Shape r = makeRectangle(startDrag.x, startDrag.y, e.getX(), e.getY());
+//                Shape r = makeEllipse(startDrag.x, startDrag.y, e.getX(), e.getY());
+//                Shape r = testEllipse(e.getX(), e.getY());
+                JComponent theDrawJComponent = testJComponentDraw();
+//                shapes.add(r);
+                theComponentsList.add(theDrawJComponent);
                 startDrag = null;
                 endDrag = null;
                 repaint();
@@ -71,6 +76,10 @@ public class MyCanvas extends JComponent{
             g2.fill(s);
         }
 
+        for (JComponent theJ : theComponentsList) {
+            theJ.paintComponents(g);
+        }
+
         if (startDrag != null && endDrag != null) { //在畫滑鼠移動時的長方形
             g2.setPaint(Color.LIGHT_GRAY);
             Shape r = makeRectangle(startDrag.x, startDrag.y, endDrag.x, endDrag.y);
@@ -81,6 +90,19 @@ public class MyCanvas extends JComponent{
     private Rectangle2D.Float makeRectangle(int x1, int y1, int x2, int y2) {
         return new Rectangle2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2));
     }
+
+    private Ellipse2D.Float makeEllipse(int x1, int y1, int x2, int y2) {
+        return new Ellipse2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2));
+    }
+
+    private Ellipse2D.Float testEllipse(int x1, int y1) {
+        return new Ellipse2D.Float(x1 - 20,y1 - 20, 80, 50);
+    }
+
+    private JComponent testJComponentDraw() {
+        return new TestDrawableJComponent();
+    }
+
 
     public void setDrawingOption(int setting) {
         DrawingOption = setting;
