@@ -28,6 +28,7 @@ public class StartMain {
         theVerticalToolPanel.setLayout(new BoxLayout(theVerticalToolPanel, BoxLayout.Y_AXIS));
 
         MyCanvas theMainCanvas = new MyCanvas();
+        MyTestCanvas thetestCanvas = new MyTestCanvas();
 
 
 
@@ -59,7 +60,7 @@ public class StartMain {
         theToolbarPositionPanel.add(BorderLayout.WEST,theToolbarPanel);
         theMainFrame.getContentPane().add(BorderLayout.NORTH,theToolbarPositionPanel);
         theMainFrame.getContentPane().add(BorderLayout.WEST,theVerticalToolPanel);
-        theMainFrame.getContentPane().add(BorderLayout.CENTER,theMainCanvas);
+        theMainFrame.getContentPane().add(BorderLayout.CENTER,thetestCanvas);
         theMainFrame.setSize(2000,1300);
         theMainFrame.setVisible(true);
     }
