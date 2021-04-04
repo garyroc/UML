@@ -10,6 +10,7 @@ public class MyCanvas extends JPanel {
     protected Drawable newDrawingObj;
     protected Point startPoint, endPoint;
     protected DrawController theDrawController;
+    protected boolean mousedrage = false;
 
     public MyCanvas(DrawController theMainDrawController) {
         theDrawController = theMainDrawController;
@@ -25,18 +26,20 @@ public class MyCanvas extends JPanel {
 
 
             public void mouseReleased(MouseEvent e) {
-//                if (endPoint != null) {
-//                    newDrawingObj = theDrawController.createDrawOject(startPoint,endPoint);
-//                    theDrawedObjectList.add(newDrawingObj);
-//
-//                }
+                endPoint = new Point(e.getX(), e.getY());
+                theMainDrawController.checkDrawObj(startPoint,endPoint);
+                theDrawedObjectList = theMainDrawController.getDrawingList();
+                mousedrage = false;
                 endPoint = null;
                 repaint();
             }
         });
         this.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
+                mousedrage = true;
                 endPoint = new Point(e.getX(),e.getY());
+                theMainDrawController.createDrawOject(startPoint,endPoint,mousedrage);
+                theDrawedObjectList = theMainDrawController.getDrawingList();
                 repaint();
             }
         });
@@ -61,9 +64,9 @@ public class MyCanvas extends JPanel {
             needDrawedObject.paintObject(g);
         }
 
-        if (startPoint != null && endPoint != null) {
-            g.drawLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y);
-        }
+//        if (startPoint != null && endPoint != null) {
+//            g.drawLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y);
+//        }
     }
 
 }

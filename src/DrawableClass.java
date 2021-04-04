@@ -1,32 +1,17 @@
 import java.awt.*;
-import javax.swing.*;
+import java.awt.geom.Rectangle2D;
 
 public class DrawableClass extends Drawable {
     private static int OFFSET_CORRECTION = 40;
     private int width = 100;
     private int heigh = 40;
     private int connectionPointWidth = 10;
-
-    /*
-     * Connection point declare
-     * */
-    protected Point northPoint;
-    protected Point eastPoint;
-    protected Point southPoint;
-    protected Point westPoint;
-
-    public DrawableClass(Point givenPoint) {
-        super(givenPoint);
-        text = "Class";
-        northPoint = new Point(givenPoint.x+(width/2), givenPoint.y-connectionPointWidth);
-        eastPoint = new Point(givenPoint.x+width, givenPoint.y+(heigh*3/2));
-        southPoint = new Point(givenPoint.x+(width/2) ,givenPoint.y+heigh*3);
-        westPoint = new Point(givenPoint.x-connectionPointWidth, givenPoint.y+(heigh*3/2));
-    }
+    private Rectangle2D objArea; //For check point overlap purpose
 
     public DrawableClass(Point givenPoint, int givenDepth) {
-        super(givenPoint,givenDepth);
+        super(givenPoint,givenDepth, false);
         text = "Class";
+        objArea = new Rectangle(startPoint.x,startPoint.y, width, 3*heigh);
         northPoint = new Point(givenPoint.x+(width/2), givenPoint.y-connectionPointWidth);
         eastPoint = new Point(givenPoint.x+width, givenPoint.y+(heigh*3/2));
         southPoint = new Point(givenPoint.x+(width/2) ,givenPoint.y+heigh*3);
@@ -44,5 +29,10 @@ public class DrawableClass extends Drawable {
         g.fillRect(southPoint.x, southPoint.y, connectionPointWidth, connectionPointWidth);
         g.fillRect(westPoint.x, westPoint.y, connectionPointWidth, connectionPointWidth);
         g.drawString(text,startPoint.x+(width/3),startPoint.y+(heigh/2));
+    }
+
+    @Override
+    public boolean checkOverlap(Point givenPoint) {
+        return objArea.contains(givenPoint);
     }
 }

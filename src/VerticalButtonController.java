@@ -9,21 +9,27 @@ public class VerticalButtonController {
     }
 
     public void initializeVerticalButtonsList() {
-        VerticalButton initializedButton = new VerticalSelectButton("Select", mainDrawController);
+        VerticalButton initializedButton = new VerticalSelectButton("Select", mainDrawController, this);
         verticalButtonsList.add(initializedButton);
-        initializedButton = new VerticalAssociationLineButton("Association Line", mainDrawController);
+        initializedButton = new VerticalAssociationLineButton("Association Line", mainDrawController, this);
         verticalButtonsList.add(initializedButton);
-        initializedButton = new VerticalGeneralizationLineButton("Generalization Line", mainDrawController);
+        initializedButton = new VerticalGeneralizationLineButton("Generalization Line", mainDrawController, this);
         verticalButtonsList.add(initializedButton);
-        initializedButton = new VerticalCompositionLineButton("Composition Line", mainDrawController);
+        initializedButton = new VerticalCompositionLineButton("Composition Line", mainDrawController, this);
         verticalButtonsList.add(initializedButton);
-        initializedButton = new VerticalClassButton("Class",mainDrawController);
+        initializedButton = new VerticalClassButton("Class",mainDrawController, this);
         verticalButtonsList.add(initializedButton);
-        initializedButton = new VerticalUseClassButton("Use Class", mainDrawController);
+        initializedButton = new VerticalUseClassButton("Use Class", mainDrawController, this);
         verticalButtonsList.add(initializedButton);
     }
 
     public ArrayList<VerticalButton> getVerticalButtonsList() {
         return verticalButtonsList;
+    }
+
+    public void restAllSelectedState() {
+        for ( VerticalButton initializedButton : verticalButtonsList) {
+            initializedButton.buttonSelected = false;
+        }
     }
 }

@@ -1,7 +1,7 @@
 public class VerticalCompositionLineButton extends VerticalButton{
 
     /* Constructor */
-    public VerticalCompositionLineButton(String text, DrawController givenController) {
-        super(text, givenController);
+    public VerticalCompositionLineButton(String text, DrawController givenDrawController, VerticalButtonController givenButtonController) {
+        super(text, givenDrawController, givenButtonController);
     }
 }

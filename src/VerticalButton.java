@@ -1,22 +1,21 @@
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
 
 public class VerticalButton extends JButton{
     protected boolean mousePressed = false;
     protected boolean mouseOver = false;
     protected boolean buttonSelected = false;
     protected int buttonSideLength = 80;
-    protected DrawController theMainController;
+    protected DrawController theDrawController;
+    protected VerticalButtonController verticalButtonController;
 
     /* Constructor */
-    public VerticalButton(String text, DrawController givenController) {
+    public VerticalButton(String text, DrawController givenDrawController, VerticalButtonController givenButtonController) {
         super(text);
-        theMainController = givenController;
+        theDrawController = givenDrawController;
+        verticalButtonController = givenButtonController;
         setOpaque(false);
         setFocusPainted(false);
         setBorderPainted(false); //BackGound disapper
@@ -27,7 +26,8 @@ public class VerticalButton extends JButton{
             public void mousePressed(MouseEvent me){
                 if(contains(me.getX(), me.getY())){
                     mousePressed = true;
-                    buttonSelected = !buttonSelected;
+                    verticalButtonController.restAllSelectedState();
+                    buttonSelected = true;
                     repaint();
                 }
             }

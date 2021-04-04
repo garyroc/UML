@@ -42,8 +42,6 @@ public class StartMain {
         verticalButtonlist = mainVerticalButtonController.getVerticalButtonsList();
 
 
-//        VerticalButton testbutton4 = new VerticalButton("fuck2");
-
         theToolbarPanel.add(testbutton);
         theToolbarPanel.add(testbutton2);
 
@@ -52,12 +50,6 @@ public class StartMain {
             theVerticalToolPanel.add(initializedButton);
         }
 
-//        theVerticalToolPanel.add(theSelectButton);
-//        theVerticalToolPanel.add(theAssociationLineButton);
-//        theVerticalToolPanel.add(theGeneralizationLineButton);
-//        theVerticalToolPanel.add(theCompositionLineButton);
-//        theVerticalToolPanel.add(theClassButton);
-//        theVerticalToolPanel.add(theUseClassButton);
 
         theToolbarPositionPanel.add(BorderLayout.WEST,theToolbarPanel);
         theMainFrame.getContentPane().add(BorderLayout.NORTH,theToolbarPositionPanel);

@@ -5,8 +5,8 @@ import java.awt.event.MouseEvent;
 public class VerticalSelectButton extends VerticalButton{
 
     /* Constructor */
-    public VerticalSelectButton(String text, DrawController givenController) {
-        super(text, givenController);
+    public VerticalSelectButton(String text, DrawController givenDrawController, VerticalButtonController givenButtonController) {
+        super(text, givenDrawController, givenButtonController);
 
         MouseAdapter mouseListener = new MouseAdapter(){
             @Override
