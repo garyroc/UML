@@ -24,6 +24,15 @@ public class DrawableClass extends Drawable {
         westPoint = new Point(givenPoint.x-connectionPointWidth, givenPoint.y+(heigh*3/2));
     }
 
+    public DrawableClass(Point givenPoint, int givenDepth) {
+        super(givenPoint,givenDepth);
+        text = "Class";
+        northPoint = new Point(givenPoint.x+(width/2), givenPoint.y-connectionPointWidth);
+        eastPoint = new Point(givenPoint.x+width, givenPoint.y+(heigh*3/2));
+        southPoint = new Point(givenPoint.x+(width/2) ,givenPoint.y+heigh*3);
+        westPoint = new Point(givenPoint.x-connectionPointWidth, givenPoint.y+(heigh*3/2));
+    }
+
     @Override
     protected void paintObject(Graphics g) {
         g.setColor(Color.BLACK);

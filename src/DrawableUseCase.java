@@ -23,6 +23,15 @@ public class DrawableUseCase extends Drawable{
         westPoint = new Point(givenPoint.x-connectionPointWidth, givenPoint.y+(heigh/2));
     }
 
+    public DrawableUseCase(Point givenPoint, int givenDepth) {
+        super(givenPoint,givenDepth);
+        text = "Use Case";
+        northPoint = new Point(givenPoint.x+(width/2), givenPoint.y-connectionPointWidth);
+        eastPoint = new Point(givenPoint.x+width, givenPoint.y+(heigh/2));
+        southPoint = new Point(givenPoint.x+(width/2) ,givenPoint.y+heigh);
+        westPoint = new Point(givenPoint.x-connectionPointWidth, givenPoint.y+(heigh/2));
+    }
+
 
     @Override
     protected void paintObject(Graphics g) {

@@ -11,51 +11,12 @@ public class VerticalButton extends JButton{
     protected boolean mouseOver = false;
     protected boolean buttonSelected = false;
     protected int buttonSideLength = 80;
-    protected DrawController theDrawController;
+    protected DrawController theMainController;
 
-    public VerticalButton() {
-        super();
-        setOpaque(false);
-        setFocusPainted(false);
-        setBorderPainted(false);
-
-        this.setMaximumSize(new Dimension(buttonSideLength, buttonSideLength));
-
-        MouseAdapter mouseListener = new MouseAdapter(){
-            @Override
-            public void mousePressed(MouseEvent me){
-                if(contains(me.getX(), me.getY())){
-                    mousePressed = true;
-                    repaint();
-                }
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent me){
-                mousePressed = false;
-                repaint();
-            }
-
-            @Override
-            public void mouseExited(MouseEvent me){
-                mouseOver = false;
-                mousePressed = false;
-                repaint();
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent me){
-                mouseOver = contains(me.getX(), me.getY());
-                repaint();
-            }
-        };
-
-        addMouseListener(mouseListener);
-        addMouseMotionListener(mouseListener);
-    }
-
-    public VerticalButton(String text) {
+    /* Constructor */
+    public VerticalButton(String text, DrawController givenController) {
         super(text);
+        theMainController = givenController;
         setOpaque(false);
         setFocusPainted(false);
         setBorderPainted(false); //BackGound disapper
@@ -96,15 +57,13 @@ public class VerticalButton extends JButton{
     }
 
     /* Method */
+    public void resetSlectedState() {
+
+    }
+
     @Override
     public Dimension getPreferredSize(){
         return new Dimension(buttonSideLength, buttonSideLength);
-    }
-
-    class buttonSelectedListener implements ActionListener {
-        public void actionPerformed(ActionEvent event) {
-
-        }
     }
 
     /* 先註解，之後再來修正GUI的外觀部分 */
@@ -114,7 +73,6 @@ public class VerticalButton extends JButton{
         if (buttonSelected) {
             if(mousePressed){
                 g.setColor(Color.WHITE);
-//                buttonSelected = false;
             }
             else {
                 g.setColor(Color.LIGHT_GRAY);
@@ -123,7 +81,6 @@ public class VerticalButton extends JButton{
         else {
             if(mousePressed){
                 g.setColor(Color.LIGHT_GRAY);
-//                buttonSelected = true;
             }
             else {
                 g.setColor(Color.WHITE);

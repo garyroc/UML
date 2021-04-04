@@ -12,6 +12,11 @@ public class DrawableAssociationLine extends Drawable {
         endPoint = givenEndPoint;
     }
 
+    public DrawableAssociationLine(Point givenStartPoint, Point givenEndPoint, int givenDepth) {
+        super(givenStartPoint, givenDepth);
+        endPoint = givenEndPoint;
+    }
+
     @Override
     protected void paintObject(Graphics g) {
         float arrowRatio = 0.5f;

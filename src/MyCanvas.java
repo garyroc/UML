@@ -18,17 +18,18 @@ public class MyCanvas extends JPanel {
             public void mousePressed(MouseEvent e) {
                 startPoint = new Point(e.getX(), e.getY());
                 endPoint = new Point(e.getX(), e.getY());
-                newDrawingObj = theDrawController.createDrawOject(startPoint,endPoint);
-                theDrawedObjectList.add(newDrawingObj);
+                theMainDrawController.createDrawOject(startPoint,endPoint);
+                theDrawedObjectList = theMainDrawController.getDrawingList();
                 repaint();
             }
 
 
             public void mouseReleased(MouseEvent e) {
-                if (endPoint != null) {
-                    newDrawingObj = theDrawController.createDrawOject(startPoint,endPoint);
-                    theDrawedObjectList.add(newDrawingObj);
-                }
+//                if (endPoint != null) {
+//                    newDrawingObj = theDrawController.createDrawOject(startPoint,endPoint);
+//                    theDrawedObjectList.add(newDrawingObj);
+//
+//                }
                 endPoint = null;
                 repaint();
             }
