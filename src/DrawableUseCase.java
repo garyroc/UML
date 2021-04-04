@@ -14,19 +14,6 @@ public class DrawableUseCase extends Drawable{
     protected Point southPoint;
     protected Point westPoint;
 
-    public DrawableUseCase() {
-        super();
-    }
-
-    public DrawableUseCase(int xPos, int yPos) {
-        super(xPos,yPos);
-        text = "Use Case";
-        northPoint = new Point(xPos+(width/2), yPos-connectionPointWidth);
-        eastPoint = new Point(xPos+width, yPos+(heigh/2));
-        southPoint = new Point(xPos+(width/2) ,yPos+heigh);
-        westPoint = new Point(xPos-connectionPointWidth, yPos+(heigh/2));
-    }
-
     public DrawableUseCase(Point givenPoint) {
         super(givenPoint);
         text = "Use Case";

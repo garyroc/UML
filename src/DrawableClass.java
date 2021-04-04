@@ -15,19 +15,6 @@ public class DrawableClass extends Drawable {
     protected Point southPoint;
     protected Point westPoint;
 
-    public DrawableClass() {
-        super();
-    }
-
-    public DrawableClass(int xPos, int yPos) {
-        super(xPos,yPos);
-        text = "Class";
-        northPoint = new Point(xPos+(width/2), yPos-connectionPointWidth);
-        eastPoint = new Point(xPos+width, yPos+(heigh*3/2));
-        southPoint = new Point(xPos+(width/2) ,yPos+heigh*3);
-        westPoint = new Point(xPos-connectionPointWidth, yPos+(heigh*3/2));
-    }
-
     public DrawableClass(Point givenPoint) {
         super(givenPoint);
         text = "Class";

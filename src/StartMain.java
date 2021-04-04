@@ -1,20 +1,21 @@
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.*;
-import java.util.*;
-
 
 public class StartMain {
-    JFrame theMainFrame;
-    JPanel theToolbarPositionPanel;
-    JPanel theToolbarPanel;
-    JPanel theVerticalToolPanel;
+    public JFrame theMainFrame;
+    public JPanel theToolbarPositionPanel;
+    public JPanel theToolbarPanel;
+    public JPanel theVerticalToolPanel;
+
+
 
     public static void main(String[] args) {
         new StartMain().buildGUI();
+
     }
 
     public void buildGUI() {
+        DrawController theMainDrawController = new DrawController();
         theMainFrame = new JFrame("UML Editor");
         theMainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -27,8 +28,8 @@ public class StartMain {
         theVerticalToolPanel = new JPanel();
         theVerticalToolPanel.setLayout(new BoxLayout(theVerticalToolPanel, BoxLayout.Y_AXIS));
 
-        MyCanvas theMainCanvas = new MyCanvas();
-        MyTestCanvas thetestCanvas = new MyTestCanvas();
+//        MyCanvas thetestCanvas = new MyCanvas();
+        MyCanvas thetestCanvas = new MyCanvas(theMainDrawController);
 
 
 

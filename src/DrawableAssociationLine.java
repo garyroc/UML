@@ -7,14 +7,6 @@ public class DrawableAssociationLine extends Drawable {
     private double lineLength = 0;
     private Point endPoint = new Point(0,0);
 
-    public DrawableAssociationLine() {
-        super();
-    }
-
-    public DrawableAssociationLine(Point givenStartPoint) {
-        super(givenStartPoint);
-    }
-
     public DrawableAssociationLine(Point givenStartPoint, Point givenEndPoint) {
         super(givenStartPoint);
         endPoint = givenEndPoint;
