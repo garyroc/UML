@@ -64,9 +64,6 @@ public class MyCanvas extends JPanel {
             needDrawedObject.paintObject(g);
         }
 
-//        if (startPoint != null && endPoint != null) {
-//            g.drawLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y);
-//        }
     }
 
 }

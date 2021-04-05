@@ -1,7 +1,7 @@
 import java.awt.*;
 
 public class DrawableLine extends Drawable {
-    protected Point endPoint = new Point(0,0);
+    protected Point endPoint;
     protected boolean hasFinish = false;
     public DrawableLine(Point givenStartPoint, Point givenEndPoint, int givenDepth) {
         super(givenStartPoint, givenDepth, true);
@@ -11,7 +11,9 @@ public class DrawableLine extends Drawable {
     public void setEndPoint(Point givenPoint) {
         endPoint = givenPoint;
     }
-
+    public Point getEndPoint() {
+        return endPoint;
+    }
     public void setHasFinish(boolean givenValue) {
         hasFinish = givenValue;
     }
@@ -19,4 +21,5 @@ public class DrawableLine extends Drawable {
     public boolean getHasFinish() {
         return hasFinish;
     }
+
 }

@@ -15,7 +15,7 @@ public class DrawController {
 
     }
 
-    public Drawable createDrawOject(Point givenStartPoint, Point givenEndPoint) {
+    public void createDrawOject(Point givenStartPoint, Point givenEndPoint) {
         Drawable resultDrawObject = null;
         switch (currentState) {
             case SELECET:
@@ -24,36 +24,20 @@ public class DrawController {
             case ASSOCIATION_LINE:
                 resultDrawObject = new DrawableAssociationLine(givenStartPoint, givenEndPoint,mainDepth);
                 resultDrawObject.setSelectedState(true);
-//                if (!determineLineExistOrNot(resultDrawObject,givenEndPoint)){
-//                    resultDrawObject = null;
-//                }
-
-//                resultDrawObject = (Drawable) mainCompositeTree.get(mainCompositeTree.size()-1);
-//                if (resultDrawObject.isLineObj) {
-//                    determineLineExistOrNot(resultDrawObject,givenEndPoint);
-//                }
-//                else {
-//                    resultDrawObject = new DrawableAssociationLine(givenStartPoint, givenEndPoint,mainDepth);
-//                }
-
-                // Determine the line should exist or not
-//                resultDrawObject = new DrawableAssociationLine(givenStartPoint, givenEndPoint,mainDepth);
-//                mainCompositeTree.add(resultDrawObject);
-//                mainDepth++;
                 break;
             case GENERALIZATION_LINE:
+                resultDrawObject = new DrawableGeneralizationLine(givenStartPoint, givenEndPoint,mainDepth);
+                resultDrawObject.setSelectedState(true);
                 break;
             case COMPOSITION_LINE:
+                resultDrawObject = new DrawableCompositionLine(givenStartPoint, givenEndPoint,mainDepth);
+                resultDrawObject.setSelectedState(true);
                 break;
             case THE_CLASSOBJECT:
                 resultDrawObject = new DrawableClass(givenStartPoint, mainDepth);
-//                mainDepth++;
-//                mainCompositeTree.add(resultDrawObject);
                 break;
             case THE_USECASE:
                 resultDrawObject = new DrawableUseCase(givenStartPoint, mainDepth);
-//                mainDepth++;
-
                 break;
         }
         mainCompositeTree.add(resultDrawObject);
@@ -62,74 +46,53 @@ public class DrawController {
         if (currentState == PAINT_TOOL.ASSOCIATION_LINE || currentState == PAINT_TOOL.GENERALIZATION_LINE || currentState == PAINT_TOOL.COMPOSITION_LINE) {
             determineLineExistOrNot(resultDrawObject,givenEndPoint);
         }
-
-        return resultDrawObject;
     }
 
     /*For mouse drag duration*/
-    public Drawable createDrawOject(Point givenStartPoint, Point givenEndPoint, boolean isMouseDrage) {
+    public void createDrawOject(Point givenStartPoint, Point givenEndPoint, boolean isMouseDrage) {
         Drawable resultDrawObject = null;
         switch (currentState) {
             case SELECET:
-
                 break;
-            case ASSOCIATION_LINE:
+            case THE_CLASSOBJECT:
+                break;
+            case THE_USECASE:
+                break;
+            default:
                 resultDrawObject = (Drawable) mainCompositeTree.get(mainCompositeTree.size()-1);
                 if (resultDrawObject.isLineObj) {
                     if ((resultDrawObject).getSelectedState()) {
                         ((DrawableLine) resultDrawObject).setEndPoint(givenEndPoint);
                     }
                 }
-//                else {
-//                    resultDrawObject = new DrawableAssociationLine(givenStartPoint, givenEndPoint,mainDepth);
-//                    mainDepth++;
-//                    mainCompositeTree.add(resultDrawObject);
-//                }
-
-//                ((DrawableLine) resultDrawObject).setEndPoint(givenEndPoint);
-                break;
-            case GENERALIZATION_LINE:
-                break;
-            case COMPOSITION_LINE:
                 break;
         }
-        return resultDrawObject;
     }
 
+    /* Call when mouse release */
     public void checkDrawObj(Point givenStartPoint, Point givenEndPoint) {
         Drawable resultDrawObject = null;
         switch (currentState) {
             case SELECET:
 
                 break;
-            case ASSOCIATION_LINE:
-                resultDrawObject = (Drawable) mainCompositeTree.get(mainCompositeTree.size()-1);
-                if (resultDrawObject.isLineObj && resultDrawObject.getSelectedState()) {
-                    determineLineExistOrNot(resultDrawObject,givenEndPoint);
-                    resultDrawObject.setSelectedState(false);
-                }
+            case THE_CLASSOBJECT:
                 break;
-            case GENERALIZATION_LINE:
-                break;
-            case COMPOSITION_LINE:
+            case THE_USECASE:
                 break;
             default:
+                resultDrawObject = (Drawable) mainCompositeTree.get(mainCompositeTree.size()-1);
+                if (resultDrawObject.isLineObj && resultDrawObject.getSelectedState()) {
+                    resultDrawObject.setSelectedState(false);
+                    determineLineExistOrNot(resultDrawObject,givenEndPoint);
+                }
                 break;
         }
-    }
 
-    protected boolean checkObjectExist(){
-        /* Under construction*/
-        return false;
     }
 
     public void changePaintTool(PAINT_TOOL givenPaintTool) {
         currentState = givenPaintTool;
-    }
-
-    public void mousePressedHappend(Point startPoint, Point endPoint) {
-
-
     }
 
     public ArrayList<Drawable> getDrawingList() {
@@ -161,28 +124,58 @@ public class DrawController {
     }
 
     private void determineLineExistOrNot (Drawable underTestLine, Point givenEndPoint) {
-        Drawable connectedDrawingObj = null;
+        Drawable endPointConnectObj = null;
+        Drawable startPointConnectObj = null;
         createDrawingList(mainCompositeTree);
         for ( Drawable testingObj : drawingObjectList) {
             if (!testingObj.isLineObj()) {
                 if (testingObj.checkOverlap(givenEndPoint)) {
-                    connectedDrawingObj = testingObj;
+                    endPointConnectObj = testingObj;
+                }
+                if (testingObj.checkOverlap(underTestLine.startPoint)) {
+                    startPointConnectObj = testingObj;
                 }
             }
         }
-        /* connect line to the object */
-        //Need improve
-        if (connectedDrawingObj == null) {
+
+        if (endPointConnectObj == null) {
             mainCompositeTree.remove((mainCompositeTree.size()-1));
-//            ((DrawableLine)underTestLine).setEndPoint(connectedDrawingObj.northPoint);
         }
         else {
-            ((DrawableLine) underTestLine).setEndPoint(connectedDrawingObj.northPoint);
-//            ((DrawableLine) underTestLine).setHasFinish(true);
-//            ((DrawableLine) mainCompositeTree.get((mainCompositeTree.size()-1))).setEndPoint(connectedDrawingObj.northPoint);
+            /* connect line to the object connect point*/
+            Point startPoint = underTestLine.getStartPoint();
+            double leastDistance = 999.00d;
+            Point leastDistancePoint = null;
+            ArrayList<Point> testingPointList = new ArrayList<Point>();;
+            testingPointList.add(endPointConnectObj.northPoint);
+            testingPointList.add(endPointConnectObj.eastPoint);
+            testingPointList.add(endPointConnectObj.southPoint);
+            testingPointList.add(endPointConnectObj.westPoint);
+            if (startPoint.equals(givenEndPoint)) {
+                for (int i=0; i<4; i++) {
+                    if ( testingPointList.get(i).distance(givenEndPoint) < leastDistance) {
+                        leastDistance = testingPointList.get(i).distance(givenEndPoint);
+                        leastDistancePoint = testingPointList.get(i);
+                    }
+                }
+                underTestLine.setStartPoint(leastDistancePoint);
+                ((DrawableLine)underTestLine).setEndPoint(leastDistancePoint);
+            }
+            else {
+                if (startPointConnectObj.equals(endPointConnectObj)) {
+                    mainCompositeTree.remove((mainCompositeTree.size()-1));
+                }
+                else {
+                    for (int i=0; i<4; i++) {
+                        if ( testingPointList.get(i).distance(givenEndPoint) < leastDistance) {
+                            leastDistance = testingPointList.get(i).distance(givenEndPoint);
+                            leastDistancePoint = testingPointList.get(i);
+                        }
+                    }
+                    ((DrawableLine)underTestLine).setEndPoint(leastDistancePoint);
+                }
+            }
         }
-
     }
-
 
 }

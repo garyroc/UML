@@ -9,10 +9,10 @@ public class Drawable extends CompositeProtocol {
     protected boolean selectedState;
 
     /* Connection point declare */
-    protected Point northPoint;
-    protected Point eastPoint;
-    protected Point southPoint;
-    protected Point westPoint;
+    protected Point northPoint = null;
+    protected Point eastPoint = null;
+    protected Point southPoint = null;
+    protected Point westPoint = null;
 
 
     public Drawable(Point givenPoint) {
@@ -38,6 +38,8 @@ public class Drawable extends CompositeProtocol {
 
     public int getX() { return startPoint.x; }
     public int getY() { return startPoint.y; }
+    public void setStartPoint(Point givenPoint ) { startPoint = givenPoint; }
+    public Point getStartPoint() { return startPoint; }
     public boolean isLineObj() { return isLineObj; }
     public void setSelectedState(boolean givenValue) {
         selectedState = givenValue;
