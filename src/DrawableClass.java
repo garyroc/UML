@@ -17,6 +17,7 @@ public class DrawableClass extends Drawable {
         eastPoint = new Point(givenPoint.x+width, givenPoint.y+(heigh*3/2));
         southPoint = new Point(givenPoint.x+(width/2) ,givenPoint.y+heigh*3);
         westPoint = new Point(givenPoint.x, givenPoint.y+(heigh*3/2));
+
     }
 
     @Override

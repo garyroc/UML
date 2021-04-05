@@ -20,6 +20,7 @@ public class DrawController {
         switch (currentState) {
             case SELECET:
 
+
                 break;
             case ASSOCIATION_LINE:
                 resultDrawObject = new DrawableAssociationLine(givenStartPoint, givenEndPoint,mainDepth);
@@ -146,36 +147,73 @@ public class DrawController {
             Point startPoint = underTestLine.getStartPoint();
             double leastDistance = 999.00d;
             Point leastDistancePoint = null;
-            ArrayList<Point> testingPointList = new ArrayList<Point>();;
+            ArrayList<Point> testingPointList = new ArrayList<Point>();
             testingPointList.add(endPointConnectObj.northPoint);
             testingPointList.add(endPointConnectObj.eastPoint);
             testingPointList.add(endPointConnectObj.southPoint);
             testingPointList.add(endPointConnectObj.westPoint);
+
             if (startPoint.equals(givenEndPoint)) {
-                for (int i=0; i<4; i++) {
+                /*
+                * The line first created.
+                * */
+                ((DrawableLine)underTestLine).setStartPointObject(endPointConnectObj);
+                ((DrawableLine)underTestLine).setEndPointObject(endPointConnectObj);
+                int i = 0; //iterator
+                Drawable.CONNECT_POSITION resultPosition = null;
+                for (Drawable.CONNECT_POSITION position : Drawable.CONNECT_POSITION.values()) {
                     if ( testingPointList.get(i).distance(givenEndPoint) < leastDistance) {
                         leastDistance = testingPointList.get(i).distance(givenEndPoint);
                         leastDistancePoint = testingPointList.get(i);
+                        resultPosition = position;
                     }
+                    i++;
                 }
+                ((DrawableLine)underTestLine).setEndPointPosition(resultPosition);
+                ((DrawableLine)underTestLine).setStartPointPosition(resultPosition);
                 underTestLine.setStartPoint(leastDistancePoint);
                 ((DrawableLine)underTestLine).setEndPoint(leastDistancePoint);
             }
             else {
+                /*
+                * The line have finished.
+                * */
                 if (startPointConnectObj.equals(endPointConnectObj)) {
                     mainCompositeTree.remove((mainCompositeTree.size()-1));
                 }
                 else {
-                    for (int i=0; i<4; i++) {
+                    ((DrawableLine)underTestLine).setEndPointObject(endPointConnectObj);
+                    int i = 0; //iterator
+                    Drawable.CONNECT_POSITION resultPosition = null;
+                    for (Drawable.CONNECT_POSITION position : Drawable.CONNECT_POSITION.values()) {
                         if ( testingPointList.get(i).distance(givenEndPoint) < leastDistance) {
                             leastDistance = testingPointList.get(i).distance(givenEndPoint);
                             leastDistancePoint = testingPointList.get(i);
+                            resultPosition = position;
                         }
+                        i++;
                     }
+
+                    ((DrawableLine)underTestLine).setEndPointPosition(resultPosition);
                     ((DrawableLine)underTestLine).setEndPoint(leastDistancePoint);
                 }
             }
         }
+    }
+
+    private void updateAllLineConnection(){
+        DrawableLine updatingLineObj;
+        Drawable connectTargetObj;
+        for (Drawable drawObj : drawingObjectList) {
+            if (drawObj.isLineObj()) {
+                updatingLineObj = (DrawableLine) drawObj;
+                connectTargetObj = updatingLineObj.getStartPointObject();
+                updatingLineObj.setStartPoint(connectTargetObj.getConnectedPoint(updatingLineObj.getStartPointPosition()));
+                connectTargetObj = updatingLineObj.getEndPointObject();
+                updatingLineObj.setEndPoint(connectTargetObj.getConnectedPoint(updatingLineObj.getEndPointPosition()));
+            }
+        }
+
     }
 
 }

@@ -24,7 +24,6 @@ public class MyCanvas extends JPanel {
                 repaint();
             }
 
-
             public void mouseReleased(MouseEvent e) {
                 endPoint = new Point(e.getX(), e.getY());
                 theMainDrawController.checkDrawObj(startPoint,endPoint);
