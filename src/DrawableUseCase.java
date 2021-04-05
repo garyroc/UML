@@ -25,10 +25,12 @@ public class DrawableUseCase extends Drawable{
         g.setColor(Color.BLACK);
         g.drawOval(startPoint.x, startPoint.y, width, heigh);
         g.drawOval(startPoint.x-2, startPoint.y-2, width+4, heigh+4);
-//        g.fillRect(northPoint.x,northPoint.y,connectionPointWidth,connectionPointWidth);
-//        g.fillRect(eastPoint.x,eastPoint.y,connectionPointWidth,connectionPointWidth);
-//        g.fillRect(southPoint.x,southPoint.y,connectionPointWidth,connectionPointWidth);
-//        g.fillRect(westPoint.x,westPoint.y,connectionPointWidth,connectionPointWidth);
+        if (getSelectedState()) {
+            g.fillRect(northPoint.x-(connectionPointWidth/2),northPoint.y-connectionPointWidth,connectionPointWidth,connectionPointWidth);
+            g.fillRect(eastPoint.x,eastPoint.y-(connectionPointWidth/2),connectionPointWidth,connectionPointWidth);
+            g.fillRect(southPoint.x-(connectionPointWidth/2),southPoint.y,connectionPointWidth,connectionPointWidth);
+            g.fillRect(westPoint.x-connectionPointWidth,westPoint.y-(connectionPointWidth/2),connectionPointWidth,connectionPointWidth);
+        }
         g.drawString(text,startPoint.x+(width/4),startPoint.y+(heigh/2));
     }
 

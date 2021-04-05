@@ -19,8 +19,8 @@ public class DrawController {
         Drawable resultDrawObject = null;
         switch (currentState) {
             case SELECET:
-
-
+                selectObj(givenStartPoint);
+                resultDrawObject = new DrawableSelectBox(givenStartPoint, mainDepth);
                 break;
             case ASSOCIATION_LINE:
                 resultDrawObject = new DrawableAssociationLine(givenStartPoint, givenEndPoint,mainDepth);
@@ -41,8 +41,10 @@ public class DrawController {
                 resultDrawObject = new DrawableUseCase(givenStartPoint, mainDepth);
                 break;
         }
-        mainCompositeTree.add(resultDrawObject);
-        mainDepth++;
+        if(resultDrawObject != null ) {
+            mainCompositeTree.add(resultDrawObject);
+            mainDepth++;
+        }
 
         if (currentState == PAINT_TOOL.ASSOCIATION_LINE || currentState == PAINT_TOOL.GENERALIZATION_LINE || currentState == PAINT_TOOL.COMPOSITION_LINE) {
             determineLineExistOrNot(resultDrawObject,givenEndPoint);
@@ -52,15 +54,17 @@ public class DrawController {
     /*For mouse drag duration*/
     public void createDrawOject(Point givenStartPoint, Point givenEndPoint, boolean isMouseDrage) {
         Drawable resultDrawObject = null;
+        resultDrawObject = (Drawable) mainCompositeTree.get(mainCompositeTree.size()-1);
         switch (currentState) {
             case SELECET:
+                ((DrawableSelectBox)resultDrawObject).updateWidthAndHeigh(givenEndPoint);
                 break;
             case THE_CLASSOBJECT:
                 break;
             case THE_USECASE:
                 break;
             default:
-                resultDrawObject = (Drawable) mainCompositeTree.get(mainCompositeTree.size()-1);
+//                resultDrawObject = (Drawable) mainCompositeTree.get(mainCompositeTree.size()-1);
                 if (resultDrawObject.isLineObj) {
                     if ((resultDrawObject).getSelectedState()) {
                         ((DrawableLine) resultDrawObject).setEndPoint(givenEndPoint);
@@ -75,7 +79,7 @@ public class DrawController {
         Drawable resultDrawObject = null;
         switch (currentState) {
             case SELECET:
-
+                mainCompositeTree.remove((mainCompositeTree.size()-1));
                 break;
             case THE_CLASSOBJECT:
                 break;
@@ -201,6 +205,16 @@ public class DrawController {
         }
     }
 
+    private void selectObj(Point givenPoint) {
+        createDrawingList(mainCompositeTree);
+        for(Drawable drawObj : drawingObjectList) {
+            drawObj.setSelectedState(false);
+            if (drawObj.checkOverlap(givenPoint)) {
+                drawObj.setSelectedState(true);
+            }
+        }
+    }
+
     private void updateAllLineConnection(){
         DrawableLine updatingLineObj;
         Drawable connectTargetObj;
@@ -213,7 +227,6 @@ public class DrawController {
                 updatingLineObj.setEndPoint(connectTargetObj.getConnectedPoint(updatingLineObj.getEndPointPosition()));
             }
         }
-
     }
 
 }

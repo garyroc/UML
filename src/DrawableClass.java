@@ -6,7 +6,6 @@ public class DrawableClass extends Drawable {
     private int width = 100;
     private int heigh = 40;
     private int connectionPointWidth = 10;
-    private int connectionPointOffset = 7;
     private Rectangle2D objArea; //For check point overlap purpose
 
     public DrawableClass(Point givenPoint, int givenDepth) {
@@ -27,10 +26,12 @@ public class DrawableClass extends Drawable {
         g.drawRect(startPoint.x, startPoint.y+OFFSET_CORRECTION, width, heigh);
         g.drawRect(startPoint.x, startPoint.y+2*OFFSET_CORRECTION, width, heigh);
         g.drawRect(startPoint.x-2,startPoint.y-2, width+4, 3*heigh+4);
-//        g.fillRect(northPoint.x, northPoint.y, connectionPointWidth, connectionPointWidth);
-//        g.fillRect(eastPoint.x, eastPoint.y, connectionPointWidth, connectionPointWidth);
-//        g.fillRect(southPoint.x, southPoint.y, connectionPointWidth, connectionPointWidth);
-//        g.fillRect(westPoint.x, westPoint.y, connectionPointWidth, connectionPointWidth);
+        if (getSelectedState()) {
+            g.fillRect(northPoint.x, northPoint.y-connectionPointWidth, connectionPointWidth, connectionPointWidth);
+            g.fillRect(eastPoint.x, eastPoint.y, connectionPointWidth, connectionPointWidth);
+            g.fillRect(southPoint.x, southPoint.y, connectionPointWidth, connectionPointWidth);
+            g.fillRect(westPoint.x-connectionPointWidth, westPoint.y, connectionPointWidth, connectionPointWidth);
+        }
         g.drawString(text,startPoint.x+(width/3),startPoint.y+(heigh/2));
     }
 
