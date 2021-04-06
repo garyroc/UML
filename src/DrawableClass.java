@@ -17,6 +17,7 @@ public class DrawableClass extends Drawable {
         southPoint = new Point(givenPoint.x+(width/2) ,givenPoint.y+heigh*3);
         westPoint = new Point(givenPoint.x, givenPoint.y+(heigh*3/2));
 
+        endPoint = new Point(startPoint.x+width,startPoint.y+heigh*3);
     }
 
     @Override
@@ -36,7 +37,15 @@ public class DrawableClass extends Drawable {
     }
 
     @Override
-    public boolean checkOverlap(Point givenPoint) {
+    public boolean checkPointOverlap(Point givenPoint) {
         return objArea.contains(givenPoint);
+    }
+    @Override
+    public boolean checkHoleObjectOverlap(Shape givenShape) {
+        boolean testResult = false;
+        if (givenShape.contains(this.getNorthPoint()) && givenShape.contains(this.getEastPoint()) && givenShape.contains(this.getSouthPoint()) && givenShape.contains(this.getWestPoint())) {
+            testResult = true;
+        }
+        return testResult;
     }
 }

@@ -44,13 +44,6 @@ public class MyCanvas extends JPanel {
         });
     }
 
-    private boolean checkObjectexist() {
-        boolean objectExist = false;
-
-        return objectExist;
-    }
-
-
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(500,500);
@@ -63,6 +56,10 @@ public class MyCanvas extends JPanel {
             needDrawedObject.paintObject(g);
         }
 
+    }
+
+    public void updateDrawObjectList() {
+        theDrawedObjectList = theDrawController.getDrawingList();
     }
 
 }

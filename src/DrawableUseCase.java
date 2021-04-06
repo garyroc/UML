@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 
 public class DrawableUseCase extends Drawable{
@@ -17,6 +18,8 @@ public class DrawableUseCase extends Drawable{
         eastPoint = new Point(givenPoint.x+width, givenPoint.y+(heigh/2));
         southPoint = new Point(givenPoint.x+(width/2) ,givenPoint.y+heigh);
         westPoint = new Point(givenPoint.x, givenPoint.y+(heigh/2));
+
+        endPoint = new Point(startPoint.x+width,startPoint.y+heigh);
     }
 
 
@@ -35,7 +38,15 @@ public class DrawableUseCase extends Drawable{
     }
 
     @Override
-    public boolean checkOverlap(Point givenPoint) {
+    public boolean checkPointOverlap(Point givenPoint) {
         return objArea.contains(givenPoint);
+    }
+    @Override
+    public boolean checkHoleObjectOverlap(Shape givenShape) {
+        boolean testResult = false;
+        if (givenShape.contains(this.getNorthPoint()) && givenShape.contains(this.getEastPoint()) && givenShape.contains(this.getSouthPoint()) && givenShape.contains(this.getWestPoint())) {
+            testResult = true;
+        }
+        return testResult;
     }
 }

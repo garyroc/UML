@@ -7,6 +7,8 @@ public class StartMain {
     public JPanel theToolbarPositionPanel;
     public JPanel theToolbarPanel;
     public JPanel theVerticalToolPanel;
+    public JPopupMenu theEditMenu;
+
 
     ArrayList<VerticalButton> verticalButtonlist = new ArrayList<VerticalButton>();
 
@@ -17,6 +19,7 @@ public class StartMain {
 
     public void buildGUI() {
         DrawController mainDrawController = new DrawController();
+
         theMainFrame = new JFrame("UML Editor");
         theMainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -31,10 +34,10 @@ public class StartMain {
 
         MyCanvas theMainCanvas = new MyCanvas(mainDrawController);
 
+        ToolbarController theToolbarController = new ToolbarController(mainDrawController,theMainCanvas);
 
-
-        JButton testbutton = new JButton("File");
-        JButton testbutton2 = new JButton("Edit");
+        JButton fileButton = new JButton("File");
+        ToolbarEditButton toolbarEditButton = new ToolbarEditButton("Edit",mainDrawController,theToolbarController);
 
 
         /* Left handside tool bar button initialization */
@@ -42,8 +45,8 @@ public class StartMain {
         verticalButtonlist = mainVerticalButtonController.getVerticalButtonsList();
 
 
-        theToolbarPanel.add(testbutton);
-        theToolbarPanel.add(testbutton2);
+        theToolbarPanel.add(fileButton);
+        theToolbarPanel.add(toolbarEditButton);
 
         /*Left handside tool bar button add to Panel */
         for ( VerticalButton initializedButton : verticalButtonlist) {

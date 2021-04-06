@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class DrawController {
@@ -6,6 +7,9 @@ public class DrawController {
     protected ArrayList<CompositeProtocol> mainCompositeTree = new ArrayList<CompositeProtocol>();
     protected ArrayList<Drawable> drawingObjectList;
     private int mainDepth = 0;
+
+    private boolean movingObj =  false;
+//    private boolean selectet
 
     public enum PAINT_TOOL {
         SELECET, ASSOCIATION_LINE, GENERALIZATION_LINE, COMPOSITION_LINE, THE_CLASSOBJECT, THE_USECASE
@@ -20,7 +24,12 @@ public class DrawController {
         switch (currentState) {
             case SELECET:
                 selectObj(givenStartPoint);
-                resultDrawObject = new DrawableSelectBox(givenStartPoint, mainDepth);
+                if (checkMovingObj()) {
+                    movingObj = true;
+                }
+                else {
+                    resultDrawObject = new DrawableSelectBox(givenStartPoint, mainDepth);
+                }
                 break;
             case ASSOCIATION_LINE:
                 resultDrawObject = new DrawableAssociationLine(givenStartPoint, givenEndPoint,mainDepth);
@@ -57,7 +66,10 @@ public class DrawController {
         resultDrawObject = (Drawable) mainCompositeTree.get(mainCompositeTree.size()-1);
         switch (currentState) {
             case SELECET:
-                ((DrawableSelectBox)resultDrawObject).updateWidthAndHeigh(givenEndPoint);
+                if (!movingObj) {
+                    ((DrawableSelectBox)resultDrawObject).updateWidthAndHeigh(givenEndPoint);
+                }
+
                 break;
             case THE_CLASSOBJECT:
                 break;
@@ -79,7 +91,15 @@ public class DrawController {
         Drawable resultDrawObject = null;
         switch (currentState) {
             case SELECET:
-                mainCompositeTree.remove((mainCompositeTree.size()-1));
+                if(movingObj) {
+
+                }
+                else {
+                    selectGroupOfObj(givenStartPoint, givenEndPoint);
+                    mainCompositeTree.remove((mainCompositeTree.size()-1));
+
+                }
+                movingObj = false;
                 break;
             case THE_CLASSOBJECT:
                 break;
@@ -109,6 +129,7 @@ public class DrawController {
         drawingObjectList = new ArrayList<Drawable>();
         for (CompositeProtocol treeMember : compositeTree) {
             if (treeMember.myType == CompositeProtocol.OBJ_TYPE.COMPOSITE_OBJ) {
+                drawingObjectList.add(((CompositeTypeObj) treeMember).getRepresentDrawableObj());
                 traversalCompositeTree(((CompositeTypeObj)treeMember).getTheCompositeList());
             }
             else {
@@ -120,6 +141,7 @@ public class DrawController {
     private void traversalCompositeTree (ArrayList<CompositeProtocol> compositeTree) {
         for (CompositeProtocol traversingTreeMember : compositeTree) {
             if (traversingTreeMember.myType == CompositeProtocol.OBJ_TYPE.COMPOSITE_OBJ) {
+                drawingObjectList.add(((CompositeTypeObj) traversingTreeMember).getRepresentDrawableObj());
                 traversalCompositeTree(((CompositeTypeObj)traversingTreeMember).getTheCompositeList());
             }
             else {
@@ -134,16 +156,16 @@ public class DrawController {
         createDrawingList(mainCompositeTree);
         for ( Drawable testingObj : drawingObjectList) {
             if (!testingObj.isLineObj()) {
-                if (testingObj.checkOverlap(givenEndPoint)) {
+                if (testingObj.checkPointOverlap(givenEndPoint)) {
                     endPointConnectObj = testingObj;
                 }
-                if (testingObj.checkOverlap(underTestLine.startPoint)) {
+                if (testingObj.checkPointOverlap(underTestLine.startPoint)) {
                     startPointConnectObj = testingObj;
                 }
             }
         }
 
-        if (endPointConnectObj == null) {
+        if (endPointConnectObj == null || endPointConnectObj.isLineObj()) {
             mainCompositeTree.remove((mainCompositeTree.size()-1));
         }
         else {
@@ -209,10 +231,92 @@ public class DrawController {
         createDrawingList(mainCompositeTree);
         for(Drawable drawObj : drawingObjectList) {
             drawObj.setSelectedState(false);
-            if (drawObj.checkOverlap(givenPoint)) {
+            if (drawObj.checkPointOverlap(givenPoint)) {
                 drawObj.setSelectedState(true);
             }
         }
+    }
+
+    private void selectGroupOfObj(Point givenStartPoint , Point givenEndPoint) {
+        Shape selectingShape = ((DrawableSelectBox)mainCompositeTree.get((mainCompositeTree.size()-1))).getRect();
+        Drawable drawObj_d;
+        for (CompositeProtocol drawObj : mainCompositeTree) {
+            if (drawObj.myType == CompositeProtocol.OBJ_TYPE.DRAWABLE_OBJ) {
+                /* For Drawing object */
+                drawObj_d = (Drawable) drawObj;
+            }
+            else {
+                drawObj_d = ((CompositeTypeObj)drawObj).getRepresentDrawableObj();
+            }
+            if (!drawObj_d.isLineObj()) {
+                drawObj_d.setSelectedState(false);
+                if (drawObj_d.checkHoleObjectOverlap(selectingShape)) {
+                    drawObj_d.setSelectedState(true);
+                }
+            }
+        }
+    }
+
+    private boolean checkMovingObj() {
+        boolean testResult = false;
+        createDrawingList(mainCompositeTree);
+        for(Drawable drawObj : drawingObjectList) {
+            if (drawObj.getSelectedState()) {
+                testResult = true;
+            }
+        }
+        return testResult;
+    }
+
+    private ArrayList<CompositeProtocol> newTraversalCompositeTree (ArrayList<CompositeProtocol> givenCompositeTree) {
+        ArrayList<CompositeProtocol> resultList = new ArrayList<CompositeProtocol>();
+        ArrayList<CompositeProtocol> tempList;
+        for (CompositeProtocol traversingTreeMember : givenCompositeTree) {
+            if (traversingTreeMember.myType == CompositeProtocol.OBJ_TYPE.COMPOSITE_OBJ) {
+                tempList = newTraversalCompositeTree(((CompositeTypeObj) traversingTreeMember).getTheCompositeList());
+                resultList.addAll(tempList);
+            }
+            else {
+                resultList.add(traversingTreeMember);
+            }
+        }
+        return resultList;
+    }
+
+    public void groupObj() {
+        ArrayList<CompositeProtocol> beenSelectedList = new ArrayList<CompositeProtocol>();
+        Drawable drawableObj;
+        Drawable drawingCompositeBox;
+        for (CompositeProtocol treeMember : mainCompositeTree) {
+            if (treeMember.myType == CompositeProtocol.OBJ_TYPE.DRAWABLE_OBJ) {
+                drawableObj = (Drawable) treeMember;
+            }
+            else {
+                drawableObj = ((CompositeTypeObj) treeMember).getRepresentDrawableObj();
+            }
+            if (drawableObj.getSelectedState()) { //if have been selected then add into list.
+                beenSelectedList.add(treeMember);
+            }
+        }
+        if (!beenSelectedList.isEmpty()) {
+            /* Remove selected object from mainCompositeTree */
+            for (CompositeProtocol removeObj : beenSelectedList) {
+                mainCompositeTree.remove(removeObj);
+            }
+            /* Create new CompositeTree Object */
+            CompositeProtocol resultNewObj = new CompositeTypeObj(beenSelectedList);
+            mainCompositeTree.add(resultNewObj);
+            Point boxStartPoint = ((CompositeTypeObj)resultNewObj).getLeftUpMostPoint();
+            Point boxEndPoint = ((CompositeTypeObj)resultNewObj).getRightDownMostPoint();
+            drawingCompositeBox = new DrawableCompositeBox(boxStartPoint,boxEndPoint,mainDepth, (CompositeTypeObj) resultNewObj);
+            ((CompositeTypeObj) resultNewObj).setRepresentDrawableObj(drawingCompositeBox);
+//            mainCompositeTree.add(drawingCompositeBox);
+            mainDepth++;
+        }
+    }
+
+    public void unGroupObj() {
+
     }
 
     private void updateAllLineConnection(){

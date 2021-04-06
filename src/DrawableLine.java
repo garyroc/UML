@@ -1,7 +1,7 @@
 import java.awt.*;
 
 public class DrawableLine extends Drawable {
-    protected Point endPoint;
+//    protected Point endPoint;
     protected Drawable startPointObject;
     protected Drawable endPointObject;
     protected CONNECT_POSITION startPointPosition = null;
