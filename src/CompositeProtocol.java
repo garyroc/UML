@@ -24,6 +24,7 @@ public class CompositeProtocol {
             return ((CompositeTypeObj) givenComposite).getTheCompositeList();
         }
         else {
+            /* Already leaf node then give it back */
             ArrayList<CompositeProtocol> selfArray =  new ArrayList<CompositeProtocol>();
             selfArray.add(givenComposite);
             return selfArray;

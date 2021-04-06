@@ -63,26 +63,30 @@ public class DrawController {
     /*For mouse drag duration*/
     public void createDrawOject(Point givenStartPoint, Point givenEndPoint, boolean isMouseDrage) {
         Drawable resultDrawObject = null;
-        resultDrawObject = (Drawable) mainCompositeTree.get(mainCompositeTree.size()-1);
-        switch (currentState) {
-            case SELECET:
-                if (!movingObj) {
-                    ((DrawableSelectBox)resultDrawObject).updateWidthAndHeigh(givenEndPoint);
-                }
-
-                break;
-            case THE_CLASSOBJECT:
-                break;
-            case THE_USECASE:
-                break;
-            default:
-//                resultDrawObject = (Drawable) mainCompositeTree.get(mainCompositeTree.size()-1);
-                if (resultDrawObject.isLineObj) {
-                    if ((resultDrawObject).getSelectedState()) {
-                        ((DrawableLine) resultDrawObject).setEndPoint(givenEndPoint);
+        if ((mainCompositeTree.get(mainCompositeTree.size()-1).myType == CompositeProtocol.OBJ_TYPE.DRAWABLE_OBJ)){
+            resultDrawObject = (Drawable) mainCompositeTree.get(mainCompositeTree.size()-1);
+        }
+        if (resultDrawObject != null ) {
+            switch (currentState) {
+                case SELECET:
+                    if (!movingObj) {
+                        ((DrawableSelectBox)resultDrawObject).updateWidthAndHeigh(givenEndPoint);
                     }
-                }
-                break;
+
+                    break;
+                case THE_CLASSOBJECT:
+                    break;
+                case THE_USECASE:
+                    break;
+                default:
+//                resultDrawObject = (Drawable) mainCompositeTree.get(mainCompositeTree.size()-1);
+                    if (resultDrawObject.isLineObj) {
+                        if ((resultDrawObject).getSelectedState()) {
+                            ((DrawableLine) resultDrawObject).setEndPoint(givenEndPoint);
+                        }
+                    }
+                    break;
+            }
         }
     }
 
@@ -229,12 +233,29 @@ public class DrawController {
 
     private void selectObj(Point givenPoint) {
         createDrawingList(mainCompositeTree);
-        for(Drawable drawObj : drawingObjectList) {
-            drawObj.setSelectedState(false);
-            if (drawObj.checkPointOverlap(givenPoint)) {
-                drawObj.setSelectedState(true);
+        Drawable drawObj_d;
+//        for(Drawable drawObj : drawingObjectList) {
+//            drawObj.setSelectedState(false);
+//            if (drawObj.checkPointOverlap(givenPoint)) {
+//                drawObj.setSelectedState(true);
+//            }
+//        }
+
+        for (CompositeProtocol drawObj : mainCompositeTree) {
+            if(drawObj.myType == CompositeProtocol.OBJ_TYPE.DRAWABLE_OBJ) {
+                drawObj_d = (Drawable) drawObj;
+            }
+            else {
+                drawObj_d = ((CompositeTypeObj)drawObj).getRepresentDrawableObj();
+            }
+            if (!drawObj_d.isLineObj()) {
+                drawObj_d.setSelectedState(false);
+                if (drawObj_d.checkPointOverlap(givenPoint)) {
+                    drawObj_d.setSelectedState(true);
+                }
             }
         }
+
     }
 
     private void selectGroupOfObj(Point givenStartPoint , Point givenEndPoint) {
@@ -298,7 +319,7 @@ public class DrawController {
                 beenSelectedList.add(treeMember);
             }
         }
-        if (!beenSelectedList.isEmpty()) {
+        if (!beenSelectedList.isEmpty() && beenSelectedList.size() > 1) {
             /* Remove selected object from mainCompositeTree */
             for (CompositeProtocol removeObj : beenSelectedList) {
                 mainCompositeTree.remove(removeObj);
@@ -310,13 +331,30 @@ public class DrawController {
             Point boxEndPoint = ((CompositeTypeObj)resultNewObj).getRightDownMostPoint();
             drawingCompositeBox = new DrawableCompositeBox(boxStartPoint,boxEndPoint,mainDepth, (CompositeTypeObj) resultNewObj);
             ((CompositeTypeObj) resultNewObj).setRepresentDrawableObj(drawingCompositeBox);
-//            mainCompositeTree.add(drawingCompositeBox);
+
             mainDepth++;
         }
     }
 
     public void unGroupObj() {
-
+        ArrayList<CompositeProtocol> beenSelectedList = new ArrayList<CompositeProtocol>();
+        Drawable drawableObj;
+        Drawable drawingCompositeBox;
+        for (CompositeProtocol treeMember : mainCompositeTree) {
+            if (treeMember.myType == CompositeProtocol.OBJ_TYPE.COMPOSITE_OBJ) {
+                drawableObj = ((CompositeTypeObj)treeMember).getRepresentDrawableObj();
+                if (drawableObj.getSelectedState()) {
+                    beenSelectedList.add(treeMember);
+                }
+            }
+        }
+            /* Remove selected object from mainCompositeTree */
+            for (CompositeProtocol removeObj : beenSelectedList) {
+                mainCompositeTree.remove(removeObj);
+                mainCompositeTree.addAll(removeObj.decompose(removeObj));
+                ((CompositeTypeObj)removeObj).setRepresentDrawableObj(null);
+            }
+            /* Create new CompositeTree Object */
     }
 
     private void updateAllLineConnection(){

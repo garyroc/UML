@@ -23,8 +23,10 @@ public class DrawableCompositeBox extends Drawable {
 
     @Override
     public void setSelectedState(boolean givenValue) {
-        super.setSelectedState(givenValue);
+//        super.setSelectedState(givenValue);
+        selectedState = givenValue;
         //還需要完成把下轄所有的drawable都設定為selected
+        belongedCompObj.setBelongObjSelected(givenValue);
     }
 
     @Override

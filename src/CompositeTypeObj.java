@@ -21,8 +21,14 @@ public class CompositeTypeObj extends CompositeProtocol {
         return theCompositeList;
     }
 
-    public void setBelongObjSelected() {
-
+    public void setBelongObjSelected(boolean givenValue) {
+        ArrayList<CompositeProtocol> drawObjList = newTraversalCompositeTree(theCompositeList);
+        for (CompositeProtocol drawObj : drawObjList) {
+            Drawable drawObj_d = (Drawable) drawObj;
+            if (!drawObj_d.isLineObj()) {
+                drawObj_d.setSelectedState(givenValue);
+            }
+        }
     }
 
     public Point getLeftUpMostPoint() {

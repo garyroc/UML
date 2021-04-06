@@ -60,6 +60,7 @@ public class MyCanvas extends JPanel {
 
     public void updateDrawObjectList() {
         theDrawedObjectList = theDrawController.getDrawingList();
+        repaint();
     }
 
 }
