@@ -11,7 +11,7 @@ public class VerticalSelectButton extends VerticalButton{
             @Override
             public void mousePressed(MouseEvent me){
                 super.mousePressed(me);
-                theDrawController.changePaintTool(DrawController.PAINT_TOOL.SELECET);
+                theDrawController.changePaintTool(DrawController.PAINT_TOOL.SELECT);
             }
         };
 

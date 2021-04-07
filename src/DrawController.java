@@ -7,12 +7,10 @@ public class DrawController {
     protected ArrayList<CompositeProtocol> mainCompositeTree = new ArrayList<CompositeProtocol>();
     protected ArrayList<Drawable> drawingObjectList;
     private int mainDepth = 0;
-
     private boolean movingObj =  false;
-//    private boolean selectet
 
     public enum PAINT_TOOL {
-        SELECET, ASSOCIATION_LINE, GENERALIZATION_LINE, COMPOSITION_LINE, THE_CLASSOBJECT, THE_USECASE
+        SELECT, ASSOCIATION_LINE, GENERALIZATION_LINE, COMPOSITION_LINE, THE_CLASSOBJECT, THE_USECASE
     }
 
     public DrawController() {
@@ -22,7 +20,7 @@ public class DrawController {
     public void createDrawOject(Point givenStartPoint, Point givenEndPoint) {
         Drawable resultDrawObject = null;
         switch (currentState) {
-            case SELECET:
+            case SELECT:
                 selectObj(givenStartPoint);
                 if (checkMovingObj()) {
                     movingObj = true;
@@ -69,7 +67,7 @@ public class DrawController {
         }
         if (resultDrawObject != null || (mainCompositeTree.get(mainCompositeTree.size()-1).myType == CompositeProtocol.OBJ_TYPE.COMPOSITE_OBJ)) {
             switch (currentState) {
-                case SELECET:
+                case SELECT:
                     if (movingObj) {
                         movingObject(givenStartPoint, givenEndPoint);
                         updateAllLineConnection();
@@ -98,7 +96,7 @@ public class DrawController {
     public void checkDrawObj(Point givenStartPoint, Point givenEndPoint) {
         Drawable resultDrawObject = null;
         switch (currentState) {
-            case SELECET:
+            case SELECT:
                 if(movingObj) {
                     setMovingObjMoving(false);
                     movingObject(givenStartPoint, givenEndPoint);
@@ -179,7 +177,7 @@ public class DrawController {
         }
 
         if (endPointConnectObj == null || endPointConnectObj.isLineObj()) {
-            mainCompositeTree.remove((mainCompositeTree.size()-1));
+            mainCompositeTree.remove((mainCompositeTree.size()-1)); // if line should delete
         }
         else {
             /* connect line to the object connect point*/

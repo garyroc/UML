@@ -80,5 +80,4 @@ public class DrawableCompositeBox extends Drawable {
         return new Rectangle2D.Float(Math.min(x1, x2)-6, Math.min(y1, y2)-6, Math.abs(x1 - x2)+10, Math.abs(y1 - y2)+10);
     }
 
-    public Point getBoxEndPoint() { return boxEndPoint; }
 }
