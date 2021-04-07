@@ -9,6 +9,7 @@ public class Drawable extends CompositeProtocol {
     protected int objDepth;
     protected boolean isLineObj;
     protected boolean selectedState;
+    protected boolean isMoving = false;
 
     /* Connection point declare */
     protected Point northPoint = null;
@@ -38,9 +39,11 @@ public class Drawable extends CompositeProtocol {
     public Point getSouthPoint() { return southPoint; }
     public Point getWestPoint() {return westPoint; }
     public boolean isLineObj() { return isLineObj; }
+    public void setIsMoving(boolean givenValue) { isMoving = givenValue; }
+    public boolean isMoving() { return isMoving; }
     public void setSelectedState(boolean givenValue) { selectedState = givenValue; }
     public boolean getSelectedState() { return selectedState; }
-    public void moveDrableObj(int x_mov, int y_mov) {
+    public void moveDrawableObj(int x_mov, int y_mov) {
         startPoint.x = startPoint.x+x_mov;
         startPoint.y = startPoint.y+y_mov;
     }
