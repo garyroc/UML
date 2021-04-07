@@ -71,6 +71,7 @@ public class DrawController {
                 case SELECET:
                     if (movingObj) {
                         movingObject(givenStartPoint, givenEndPoint);
+                        updateAllLineConnection();
                     }
                     else {
                         ((DrawableSelectBox)resultDrawObject).updateWidthAndHeigh(givenEndPoint);
@@ -100,6 +101,7 @@ public class DrawController {
                 if(movingObj) {
                     setMovingObjMoving(false);
                     movingObject(givenStartPoint, givenEndPoint);
+                    updateAllLineConnection();
                 }
                 else {
                     selectGroupOfObj(givenStartPoint, givenEndPoint);
@@ -381,6 +383,7 @@ public class DrawController {
     private void updateAllLineConnection(){
         DrawableLine updatingLineObj;
         Drawable connectTargetObj;
+        createDrawingList(mainCompositeTree);
         for (Drawable drawObj : drawingObjectList) {
             if (drawObj.isLineObj()) {
                 updatingLineObj = (DrawableLine) drawObj;
