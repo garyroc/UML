@@ -3,7 +3,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class VerticalCompositionLineButton extends VerticalButton{
-
     /* Constructor */
     public VerticalCompositionLineButton(String text, DrawController givenDrawController, VerticalButtonController givenButtonController) {
         super(text, givenDrawController, givenButtonController);

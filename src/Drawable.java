@@ -25,7 +25,6 @@ public class Drawable extends CompositeProtocol implements Comparable {
         NORTH, EAST, SOUTH, WEST
     }
 
-
     public Drawable(Point givenPoint, int givenDepth, boolean isLine) {
         super(OBJ_TYPE.DRAWABLE_OBJ);
         this.startPoint.x = givenPoint.x;

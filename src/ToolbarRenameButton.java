@@ -20,9 +20,10 @@ public class ToolbarRenameButton extends Toolbar_PopMenuItem {
 
     private void showDialog(){
         String name = JOptionPane.showInputDialog(this,
-                "What is your name?", null);
+                "What name you want to change?", null);
         if (name != null) {
             theDrawController.reNameFunction(name);
+            theCanvas.updateDrawObjectList();
         }
     }
 }

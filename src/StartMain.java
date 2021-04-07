@@ -7,53 +7,39 @@ public class StartMain {
     public JPanel theToolbarPositionPanel;
     public JPanel theToolbarPanel;
     public JPanel theVerticalToolPanel;
-    public JPopupMenu theEditMenu;
-
-
-    ArrayList<VerticalButton> verticalButtonlist = new ArrayList<VerticalButton>();
+    ArrayList<VerticalButton> verticalButtonList = new ArrayList<VerticalButton>();
 
     public static void main(String[] args) {
         new StartMain().buildGUI();
-
     }
 
     public void buildGUI() {
-        DrawController mainDrawController = new DrawController();
-
+        /* Main Frame initialize */
         theMainFrame = new JFrame("UML Editor");
         theMainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        BorderLayout theMainLayout = new BorderLayout();
-
+        /* Panel initialize */
         theToolbarPositionPanel = new JPanel();
         theToolbarPositionPanel.setLayout(new BorderLayout());
-
         theToolbarPanel = new JPanel();
         theVerticalToolPanel = new JPanel();
         theVerticalToolPanel.setLayout(new BoxLayout(theVerticalToolPanel, BoxLayout.Y_AXIS));
-
+        /* Controller and Canvas initialize */
+        DrawController mainDrawController = new DrawController();
         MyCanvas theMainCanvas = new MyCanvas(mainDrawController);
-
         ToolbarController theToolbarController = new ToolbarController(mainDrawController,theMainCanvas);
-
+        /*Button initialize */
         JButton fileButton = new JButton("File");
         ToolbarEditButton toolbarEditButton = new ToolbarEditButton("Edit",mainDrawController,theToolbarController);
-
-
-        /* Left handside tool bar button initialization */
+        /* Left hand side tool bar button initialization */
         VerticalButtonController mainVerticalButtonController = new VerticalButtonController(mainDrawController);
-        verticalButtonlist = mainVerticalButtonController.getVerticalButtonsList();
-
-
-        theToolbarPanel.add(fileButton);
-        theToolbarPanel.add(toolbarEditButton);
-
-        /*Left handside tool bar button add to Panel */
-        for ( VerticalButton initializedButton : verticalButtonlist) {
+        verticalButtonList = mainVerticalButtonController.getVerticalButtonsList();
+        /*Left hand side tool bar button add to Panel */
+        for ( VerticalButton initializedButton : verticalButtonList) {
             theVerticalToolPanel.add(initializedButton);
         }
-
-
+        /* Up tool bar add to Panel */
+        theToolbarPanel.add(fileButton);
+        theToolbarPanel.add(toolbarEditButton);
         theToolbarPositionPanel.add(BorderLayout.WEST,theToolbarPanel);
         theMainFrame.getContentPane().add(BorderLayout.NORTH,theToolbarPositionPanel);
         theMainFrame.getContentPane().add(BorderLayout.WEST,theVerticalToolPanel);
@@ -61,9 +47,6 @@ public class StartMain {
         theMainFrame.setSize(2000,1300);
         theMainFrame.setVisible(true);
     }
-
-
-
 }
 
 

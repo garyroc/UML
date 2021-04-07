@@ -18,7 +18,7 @@ public class VerticalButton extends JButton{
         verticalButtonController = givenButtonController;
         setOpaque(false);
         setFocusPainted(false);
-        setBorderPainted(false); //BackGound disapper
+        setBorderPainted(false); //BackGround disappear
         this.setMaximumSize(new Dimension(buttonSideLength, buttonSideLength));
 
         MouseAdapter mouseListener = new MouseAdapter(){
@@ -57,16 +57,11 @@ public class VerticalButton extends JButton{
     }
 
     /* Method */
-    public void resetSlectedState() {
-
-    }
-
     @Override
     public Dimension getPreferredSize(){
         return new Dimension(buttonSideLength, buttonSideLength);
     }
 
-    /* 先註解，之後再來修正GUI的外觀部分 */
     @Override
     public void paintComponent(Graphics g) {
         /*Determine it should be selected state or not*/
@@ -87,7 +82,6 @@ public class VerticalButton extends JButton{
             }
         }
 
-
         g.fillRect(0,0,buttonSideLength-1,79); //Draw the background rectangle
 
         if(mouseOver){
@@ -97,13 +91,6 @@ public class VerticalButton extends JButton{
             g.setColor(Color.BLACK);
         }
         g.drawRect(0,0,79,79); //Draw the outside rectangle
-
-//        g.setColor(Color.BLACK);
-//        g.setFont(getFont());
-//        FontMetrics metrics = g.getFontMetrics(getFont());
-//        int stringWidth = metrics.stringWidth(getText());
-//        int stringHeight = metrics.getHeight();
-//        g.drawString(getText(), getWidth()/2 - stringWidth/2, getHeight()/2 + stringHeight/4);
     }
 
 }

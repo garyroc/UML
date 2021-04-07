@@ -43,7 +43,6 @@ public class DrawableClass extends Drawable {
             }
             g.drawString(text,startPoint.x+(width/3),startPoint.y+(heigh/2));
 
-
         }
         else {
             g.setColor(Color.GRAY);
@@ -60,7 +59,6 @@ public class DrawableClass extends Drawable {
                 g.fillRect(westPoint.x-connectionPointWidth, westPoint.y, connectionPointWidth, connectionPointWidth);
             }
             g.drawString(text,oriStartPoint.x+(width/3),oriStartPoint.y+(heigh/2));
-
         }
     }
 

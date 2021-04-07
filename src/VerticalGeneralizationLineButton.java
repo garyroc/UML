@@ -19,7 +19,6 @@ public class VerticalGeneralizationLineButton extends VerticalButton{
         addMouseMotionListener(mouseListener);
     }
 
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

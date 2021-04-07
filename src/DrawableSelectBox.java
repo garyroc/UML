@@ -13,7 +13,6 @@ public class DrawableSelectBox extends Drawable {
     }
     public void updateWidthAndHeigh(Point givenNewPoint) {
         rect = makeRectangle(startPoint.x, startPoint.y, givenNewPoint.x, givenNewPoint.y);
-
     }
 
     @Override

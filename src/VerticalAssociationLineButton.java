@@ -14,7 +14,6 @@ public class VerticalAssociationLineButton extends VerticalButton{
                 theDrawController.changePaintTool(DrawController.PAINT_TOOL.ASSOCIATION_LINE);
             }
         };
-
         addMouseListener(mouseListener);
         addMouseMotionListener(mouseListener);
     }

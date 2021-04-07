@@ -8,5 +8,4 @@ public abstract class Toolbar_PopMenuItem extends JMenuItem {
         this.theDrawController = givenDrawController;
         this.theCanvas = givenCanvas;
     }
-
 }

@@ -10,13 +10,6 @@ public class CompositeTypeObj extends CompositeProtocol {
         theCompositeList = givenList;
     }
 
-    public CompositeTypeObj(ArrayList<CompositeProtocol> givenList, Drawable givenDrawableBox) {
-        super(OBJ_TYPE.COMPOSITE_OBJ);
-        this.theCompositeList = givenList;
-        this.representDrawableObj = givenDrawableBox;
-
-    }
-
     public ArrayList<CompositeProtocol> getTheCompositeList() {
         return theCompositeList;
     }
@@ -71,6 +64,7 @@ public class CompositeTypeObj extends CompositeProtocol {
             if (traversingTreeMember.myType == CompositeProtocol.OBJ_TYPE.COMPOSITE_OBJ) {
                 tempList = newTraversalCompositeTree(((CompositeTypeObj) traversingTreeMember).getTheCompositeList());
                 resultList.addAll(tempList);
+                resultList.add(((CompositeTypeObj) traversingTreeMember).getRepresentDrawableObj());
             }
             else {
                 resultList.add(traversingTreeMember);

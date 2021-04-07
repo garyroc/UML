@@ -53,7 +53,6 @@ public class DrawController {
             mainCompositeTree.add(resultDrawObject);
             mainDepth++;
         }
-
         if (currentState == PAINT_TOOL.ASSOCIATION_LINE || currentState == PAINT_TOOL.GENERALIZATION_LINE || currentState == PAINT_TOOL.COMPOSITION_LINE) {
             determineLineExistOrNot(resultDrawObject,givenEndPoint);
         }
@@ -81,8 +80,7 @@ public class DrawController {
                 case THE_USECASE:
                     break;
                 default:
-//                resultDrawObject = (Drawable) mainCompositeTree.get(mainCompositeTree.size()-1);
-                    if (resultDrawObject.isLineObj) {
+                    if (resultDrawObject != null && resultDrawObject.isLineObj) {
                         if ((resultDrawObject).getSelectedState()) {
                             ((DrawableLine) resultDrawObject).setEndPoint(givenEndPoint);
                         }
@@ -105,7 +103,6 @@ public class DrawController {
                 else {
                     selectGroupOfObj(givenStartPoint, givenEndPoint);
                     mainCompositeTree.remove((mainCompositeTree.size()-1));
-
                 }
                 movingObj = false;
                 break;
@@ -194,28 +191,33 @@ public class DrawController {
                 /*
                 * The line first created.
                 * */
-                ((DrawableLine)underTestLine).setStartPointObject(endPointConnectObj);
-                ((DrawableLine)underTestLine).setEndPointObject(endPointConnectObj);
-                int i = 0; //iterator
-                Drawable.CONNECT_POSITION resultPosition = null;
-                for (Drawable.CONNECT_POSITION position : Drawable.CONNECT_POSITION.values()) {
-                    if ( testingPointList.get(i).distance(givenEndPoint) < leastDistance) {
-                        leastDistance = testingPointList.get(i).distance(givenEndPoint);
-                        leastDistancePoint = testingPointList.get(i);
-                        resultPosition = position;
-                    }
-                    i++;
+                if (startPointConnectObj instanceof DrawableCompositeBox) {
+                    mainCompositeTree.remove((mainCompositeTree.size()-1));
                 }
-                ((DrawableLine)underTestLine).setEndPointPosition(resultPosition);
-                ((DrawableLine)underTestLine).setStartPointPosition(resultPosition);
-                underTestLine.setStartPoint(leastDistancePoint);
-                ((DrawableLine)underTestLine).setEndPoint(leastDistancePoint);
+                else {
+                    ((DrawableLine)underTestLine).setStartPointObject(endPointConnectObj);
+                    ((DrawableLine)underTestLine).setEndPointObject(endPointConnectObj);
+                    int i = 0; //iterator
+                    Drawable.CONNECT_POSITION resultPosition = null;
+                    for (Drawable.CONNECT_POSITION position : Drawable.CONNECT_POSITION.values()) {
+                        if ( testingPointList.get(i).distance(givenEndPoint) < leastDistance) {
+                            leastDistance = testingPointList.get(i).distance(givenEndPoint);
+                            leastDistancePoint = testingPointList.get(i);
+                            resultPosition = position;
+                        }
+                        i++;
+                    }
+                    ((DrawableLine)underTestLine).setEndPointPosition(resultPosition);
+                    ((DrawableLine)underTestLine).setStartPointPosition(resultPosition);
+                    underTestLine.setStartPoint(leastDistancePoint);
+                    ((DrawableLine)underTestLine).setEndPoint(leastDistancePoint);
+                }
             }
             else {
                 /*
                 * The line have finished.
                 * */
-                if (startPointConnectObj.equals(endPointConnectObj)) {
+                if (startPointConnectObj.equals(endPointConnectObj) || endPointConnectObj instanceof DrawableCompositeBox || startPointConnectObj instanceof DrawableCompositeBox) {
                     mainCompositeTree.remove((mainCompositeTree.size()-1));
                 }
                 else {
@@ -329,7 +331,6 @@ public class DrawController {
             Point boxEndPoint = ((CompositeTypeObj)resultNewObj).getRightDownMostPoint();
             drawingCompositeBox = new DrawableCompositeBox(boxStartPoint,boxEndPoint,mainDepth, (CompositeTypeObj) resultNewObj);
             ((CompositeTypeObj) resultNewObj).setRepresentDrawableObj(drawingCompositeBox);
-
             mainDepth++;
         }
     }
@@ -337,7 +338,6 @@ public class DrawController {
     public void unGroupObj() {
         ArrayList<CompositeProtocol> beenSelectedList = new ArrayList<CompositeProtocol>();
         Drawable drawableObj;
-        Drawable drawingCompositeBox;
         for (CompositeProtocol treeMember : mainCompositeTree) {
             if (treeMember.myType == CompositeProtocol.OBJ_TYPE.COMPOSITE_OBJ) {
                 /* Find Selected group */
@@ -403,6 +403,5 @@ public class DrawController {
             Drawable renamingObj = selectedObjList.get(0);
             renamingObj.setText(givenName);
         }
-
     }
 }

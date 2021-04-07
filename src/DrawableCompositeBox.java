@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public class DrawableCompositeBox extends Drawable {
-    Point boxEndPoint;
     CompositeTypeObj belongedCompObj;
     private Rectangle2D objArea;
     protected Point oriStartPoint;
@@ -13,7 +12,6 @@ public class DrawableCompositeBox extends Drawable {
         text = "Composite";
         belongedCompObj = givenCompositeTypeObj;
         endPoint = givenEndPoint;
-//        objArea = new Rectangle(startPoint.x-1,startPoint.y-1, startPoint.x-endPoint.x+2, startPoint.y-endPoint.y+2);
         objArea = makeRectangle(startPoint.x,startPoint.y, endPoint.x, endPoint.y);
         oriStartPoint = new Point(0,0);
         oriEndPoint = new Point(0,0);
@@ -79,5 +77,4 @@ public class DrawableCompositeBox extends Drawable {
     private Rectangle2D.Float makeRectangle(int x1, int y1, int x2, int y2) {
         return new Rectangle2D.Float(Math.min(x1, x2)-6, Math.min(y1, y2)-6, Math.abs(x1 - x2)+10, Math.abs(y1 - y2)+10);
     }
-
 }
