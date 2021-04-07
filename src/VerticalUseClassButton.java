@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -16,6 +17,21 @@ public class VerticalUseClassButton extends VerticalButton{
 
         addMouseListener(mouseListener);
         addMouseMotionListener(mouseListener);
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        g.setColor(Color.GRAY);
+        g.fillOval(15,20,50,30);
+        g.setColor(Color.BLACK);
+        g.drawOval(15,20,50,30);
+        g.setFont(getFont());
+        FontMetrics metrics = g.getFontMetrics(getFont());
+        int stringWidth = metrics.stringWidth(getText());
+        int stringHeight = metrics.getHeight();
+        g.drawString(getText(), getWidth()/2 - stringWidth/2, stringHeight+55);
     }
 }
 

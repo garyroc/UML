@@ -29,8 +29,10 @@ public class DrawableUseCase extends Drawable{
 
     @Override
     protected void paintObject(Graphics g) {
-        g.setColor(Color.BLACK);
         if (isMoving) {
+            g.setColor(Color.orange);
+            g.fillOval(startPoint.x-2, startPoint.y-2, width+4, heigh+4);
+            g.setColor(Color.BLACK);
             g.drawOval(startPoint.x, startPoint.y, width, heigh);
             g.drawOval(startPoint.x-2, startPoint.y-2, width+4, heigh+4);
             if (getSelectedState()) {
@@ -42,6 +44,9 @@ public class DrawableUseCase extends Drawable{
             g.drawString(text,startPoint.x+(width/4),startPoint.y+(heigh/2));
         }
         else {
+            g.setColor(Color.orange);
+            g.fillOval(startPoint.x-2, startPoint.y-2, width+4, heigh+4);
+            g.setColor(Color.BLACK);
             g.drawOval(oriStartPoint.x, oriStartPoint.y, width, heigh);
             g.drawOval(oriStartPoint.x-2, oriStartPoint.y-2, width+4, heigh+4);
             if (getSelectedState()) {

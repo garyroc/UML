@@ -26,8 +26,11 @@ public class DrawableClass extends Drawable {
 
     @Override
     protected void paintObject(Graphics g) {
-        g.setColor(Color.BLACK);
+
         if (isMoving) {
+            g.setColor(Color.GRAY);
+            g.fillRect(startPoint.x-2,startPoint.y-2, width+4, 3*heigh+4);
+            g.setColor(Color.BLACK);
             g.drawRect(startPoint.x, startPoint.y, width, heigh);
             g.drawRect(startPoint.x, startPoint.y+OFFSET_CORRECTION, width, heigh);
             g.drawRect(startPoint.x, startPoint.y+2*OFFSET_CORRECTION, width, heigh);
@@ -39,8 +42,13 @@ public class DrawableClass extends Drawable {
                 g.fillRect(westPoint.x-connectionPointWidth, westPoint.y, connectionPointWidth, connectionPointWidth);
             }
             g.drawString(text,startPoint.x+(width/3),startPoint.y+(heigh/2));
+
+
         }
         else {
+            g.setColor(Color.GRAY);
+            g.fillRect(oriStartPoint.x-2,oriStartPoint.y-2, width+4, 3*heigh+4);
+            g.setColor(Color.BLACK);
             g.drawRect(oriStartPoint.x, oriStartPoint.y, width, heigh);
             g.drawRect(oriStartPoint.x, oriStartPoint.y+OFFSET_CORRECTION, width, heigh);
             g.drawRect(oriStartPoint.x, oriStartPoint.y+2*OFFSET_CORRECTION, width, heigh);
@@ -52,6 +60,7 @@ public class DrawableClass extends Drawable {
                 g.fillRect(westPoint.x-connectionPointWidth, westPoint.y, connectionPointWidth, connectionPointWidth);
             }
             g.drawString(text,oriStartPoint.x+(width/3),oriStartPoint.y+(heigh/2));
+
         }
     }
 

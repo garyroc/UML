@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DrawController {
     private PAINT_TOOL currentState = PAINT_TOOL.THE_CLASSOBJECT;
@@ -115,10 +116,12 @@ public class DrawController {
             case THE_USECASE:
                 break;
             default:
-                resultDrawObject = (Drawable) mainCompositeTree.get(mainCompositeTree.size()-1);
-                if (resultDrawObject.isLineObj && resultDrawObject.getSelectedState()) {
-                    resultDrawObject.setSelectedState(false);
-                    determineLineExistOrNot(resultDrawObject,givenEndPoint);
+                if ((mainCompositeTree.get(mainCompositeTree.size()-1)).myType != CompositeProtocol.OBJ_TYPE.COMPOSITE_OBJ) {
+                    resultDrawObject = (Drawable) mainCompositeTree.get(mainCompositeTree.size()-1);
+                    if (resultDrawObject.isLineObj && resultDrawObject.getSelectedState()) {
+                        resultDrawObject.setSelectedState(false);
+                        determineLineExistOrNot(resultDrawObject,givenEndPoint);
+                    }
                 }
                 break;
         }
@@ -131,6 +134,7 @@ public class DrawController {
 
     public ArrayList<Drawable> getDrawingList() {
         createDrawingList(mainCompositeTree);
+        Collections.sort(drawingObjectList);
         return drawingObjectList;
     }
 
@@ -395,7 +399,12 @@ public class DrawController {
         }
     }
 
-    public void reNameFunction() {
+    public void reNameFunction(String givenName) {
+        ArrayList<Drawable> selectedObjList = getSelectedObj();
+        if (selectedObjList.size() == 1) {
+            Drawable renamingObj = selectedObjList.get(0);
+            renamingObj.setText(givenName);
+        }
 
     }
 }

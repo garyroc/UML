@@ -11,11 +11,11 @@ public class VerticalButtonController {
     public void initializeVerticalButtonsList() {
         VerticalButton initializedButton = new VerticalSelectButton("Select", mainDrawController, this);
         verticalButtonsList.add(initializedButton);
-        initializedButton = new VerticalAssociationLineButton("Association Line", mainDrawController, this);
+        initializedButton = new VerticalAssociationLineButton("Association", mainDrawController, this);
         verticalButtonsList.add(initializedButton);
-        initializedButton = new VerticalGeneralizationLineButton("Generalization Line", mainDrawController, this);
+        initializedButton = new VerticalGeneralizationLineButton("Generalization", mainDrawController, this);
         verticalButtonsList.add(initializedButton);
-        initializedButton = new VerticalCompositionLineButton("Composition Line", mainDrawController, this);
+        initializedButton = new VerticalCompositionLineButton("Composition", mainDrawController, this);
         verticalButtonsList.add(initializedButton);
         initializedButton = new VerticalClassButton("Class",mainDrawController, this);
         verticalButtonsList.add(initializedButton);

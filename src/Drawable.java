@@ -1,8 +1,6 @@
-import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
-public class Drawable extends CompositeProtocol {
+public class Drawable extends CompositeProtocol implements Comparable {
     protected Point startPoint = new Point(0,0);
     protected Point endPoint;
     protected String text;
@@ -16,6 +14,12 @@ public class Drawable extends CompositeProtocol {
     protected Point eastPoint = null;
     protected Point southPoint = null;
     protected Point westPoint = null;
+
+    @Override
+    public int compareTo(Object o) {
+        int compareDepth = ((Drawable)o).getObjDepth();
+        return this.objDepth-compareDepth;
+    }
 
     public enum CONNECT_POSITION {
         NORTH, EAST, SOUTH, WEST
@@ -32,6 +36,7 @@ public class Drawable extends CompositeProtocol {
 
     public int getX() { return startPoint.x; }
     public int getY() { return startPoint.y; }
+    public void setText(String givenName) { text = givenName; }
     public void setStartPoint(Point givenPoint ) { startPoint = givenPoint; }
     public Point getStartPoint() { return startPoint; }
     public Point getNorthPoint() { return northPoint; }
@@ -47,6 +52,7 @@ public class Drawable extends CompositeProtocol {
         startPoint.x = startPoint.x+x_mov;
         startPoint.y = startPoint.y+y_mov;
     }
+    public int getObjDepth() { return objDepth; }
 
     public Point getConnectedPoint(CONNECT_POSITION givenPosition) {
         Point resultPoint = null;

@@ -98,12 +98,12 @@ public class VerticalButton extends JButton{
         }
         g.drawRect(0,0,79,79); //Draw the outside rectangle
 
-        g.setColor(Color.BLACK);
-        g.setFont(getFont());
-        FontMetrics metrics = g.getFontMetrics(getFont());
-        int stringWidth = metrics.stringWidth(getText());
-        int stringHeight = metrics.getHeight();
-        g.drawString(getText(), getWidth()/2 - stringWidth/2, getHeight()/2 + stringHeight/4);
+//        g.setColor(Color.BLACK);
+//        g.setFont(getFont());
+//        FontMetrics metrics = g.getFontMetrics(getFont());
+//        int stringWidth = metrics.stringWidth(getText());
+//        int stringHeight = metrics.getHeight();
+//        g.drawString(getText(), getWidth()/2 - stringWidth/2, getHeight()/2 + stringHeight/4);
     }
 
 }

@@ -22,4 +22,5 @@ public class ToolbarController {
     }
 
     public JPopupMenu getTheEditMenu() { return theEditMenu; }
+
 }
