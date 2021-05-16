@@ -8,6 +8,7 @@ public class DrawController {
     protected ArrayList<Drawable> drawingObjectList;
     private int mainDepth = 0;
     private boolean movingObj =  false;
+    private MyCanvas theMainCanvas;
 
     public enum PAINT_TOOL {
         SELECT, ASSOCIATION_LINE, GENERALIZATION_LINE, COMPOSITION_LINE, THE_CLASSOBJECT, THE_USECASE
@@ -403,5 +404,13 @@ public class DrawController {
             Drawable renamingObj = selectedObjList.get(0);
             renamingObj.setText(givenName);
         }
+    }
+
+    public void refreshCanvas() {
+        theMainCanvas.updateCanvas();
+    }
+
+    public void setMainCanvas(MyCanvas givenCanvas) {
+        theMainCanvas = givenCanvas;
     }
 }

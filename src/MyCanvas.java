@@ -7,27 +7,26 @@ import java.util.*;
 
 public class MyCanvas extends JPanel {
     protected ArrayList<Drawable> theDrawedObjectList = new ArrayList<Drawable>();
-    protected Drawable newDrawingObj;
     protected Point startPoint, endPoint;
     protected DrawController theDrawController;
     protected boolean mousedrage = false;
 
     public MyCanvas(DrawController theMainDrawController) {
         theDrawController = theMainDrawController;
-
+        theDrawController.setMainCanvas(this);
         this.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 startPoint = new Point(e.getX(), e.getY());
                 endPoint = new Point(e.getX(), e.getY());
-                theMainDrawController.createDrawOject(startPoint,endPoint);
-                theDrawedObjectList = theMainDrawController.getDrawingList();
+                theDrawController.createDrawOject(startPoint,endPoint);
+                theDrawedObjectList = theDrawController.getDrawingList();
                 repaint();
             }
 
             public void mouseReleased(MouseEvent e) {
                 endPoint = new Point(e.getX(), e.getY());
-                theMainDrawController.checkDrawObj(startPoint,endPoint);
-                theDrawedObjectList = theMainDrawController.getDrawingList();
+                theDrawController.checkDrawObj(startPoint,endPoint);
+                theDrawedObjectList = theDrawController.getDrawingList();
                 mousedrage = false;
                 endPoint = null;
                 repaint();
@@ -37,8 +36,8 @@ public class MyCanvas extends JPanel {
             public void mouseDragged(MouseEvent e) {
                 mousedrage = true;
                 endPoint = new Point(e.getX(),e.getY());
-                theMainDrawController.createDrawOject(startPoint,endPoint,mousedrage);
-                theDrawedObjectList = theMainDrawController.getDrawingList();
+                theDrawController.createDrawOject(startPoint,endPoint,mousedrage);
+                theDrawedObjectList = theDrawController.getDrawingList();
                 repaint();
             }
         });
@@ -58,7 +57,7 @@ public class MyCanvas extends JPanel {
 
     }
 
-    public void updateDrawObjectList() {
+    public void updateCanvas() {
         theDrawedObjectList = theDrawController.getDrawingList();
         repaint();
     }

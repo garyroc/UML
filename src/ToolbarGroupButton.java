@@ -3,14 +3,14 @@ import java.awt.event.MouseEvent;
 
 public class ToolbarGroupButton extends Toolbar_PopMenuItem {
 
-    public ToolbarGroupButton(String text,DrawController givenDrawController, MyCanvas givenCanvas) {
-        super(text,givenDrawController, givenCanvas);
+    public ToolbarGroupButton(String text,DrawController givenDrawController) {
+        super(text,givenDrawController);
         MouseAdapter mouseListener = new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent me){
                 if(contains(me.getX(), me.getY())){
                     theDrawController.groupObj();
-                    theCanvas.updateDrawObjectList();
+                    theDrawController.refreshCanvas();
                     repaint();
                 }
             }

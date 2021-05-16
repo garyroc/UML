@@ -3,14 +3,14 @@ import java.awt.event.MouseEvent;
 
 public class ToolbarUngroupButton extends Toolbar_PopMenuItem {
 
-    public ToolbarUngroupButton (String text, DrawController givenDrawController, MyCanvas givenCanvas) {
-        super(text, givenDrawController, givenCanvas);
+    public ToolbarUngroupButton (String text, DrawController givenDrawController) {
+        super(text,givenDrawController);
         MouseAdapter mouseListener = new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent me){
                 if(contains(me.getX(), me.getY())){
                     theDrawController.unGroupObj();
-                    theCanvas.updateDrawObjectList();
+                    theDrawController.refreshCanvas();
                     repaint();
                 }
             }

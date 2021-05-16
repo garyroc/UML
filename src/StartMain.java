@@ -26,7 +26,7 @@ public class StartMain {
         /* Controller and Canvas initialize */
         DrawController mainDrawController = new DrawController();
         MyCanvas theMainCanvas = new MyCanvas(mainDrawController);
-        ToolbarController theToolbarController = new ToolbarController(mainDrawController,theMainCanvas);
+        ToolbarController theToolbarController = new ToolbarController(mainDrawController);
         /*Button initialize */
         JButton fileButton = new JButton("File");
         ToolbarEditButton toolbarEditButton = new ToolbarEditButton("Edit",mainDrawController,theToolbarController);

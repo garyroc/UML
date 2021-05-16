@@ -4,8 +4,8 @@ import java.awt.event.MouseEvent;
 
 public class ToolbarRenameButton extends Toolbar_PopMenuItem {
 
-    public ToolbarRenameButton(String text, DrawController givenDrawController, MyCanvas givenCanvas) {
-        super(text,givenDrawController, givenCanvas);
+    public ToolbarRenameButton(String text, DrawController givenDrawController) {
+        super(text,givenDrawController);
         MouseAdapter mouseListener = new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent me){
@@ -23,7 +23,7 @@ public class ToolbarRenameButton extends Toolbar_PopMenuItem {
                 "What name you want to change?", null);
         if (name != null) {
             theDrawController.reNameFunction(name);
-            theCanvas.updateDrawObjectList();
+            theDrawController.refreshCanvas();
         }
     }
 }
