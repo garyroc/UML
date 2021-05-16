@@ -2,17 +2,17 @@ import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
 
-public class DrawableSelectBox extends Drawable {
+public class DrawableSelectBox extends DrawableObject {
     private Shape rect;
     private int width;
     private int heigh;
 
     public DrawableSelectBox (Point givenStartPoint, int givenDepth) {
-        super(givenStartPoint, givenDepth, true);
+        super(givenStartPoint, givenDepth);
         updateWidthAndHeigh(givenStartPoint);
     }
     public void updateWidthAndHeigh(Point givenNewPoint) {
-        rect = makeRectangle(startPoint.x, startPoint.y, givenNewPoint.x, givenNewPoint.y);
+        rect = makeRectangle(leftUpPoint.x, leftUpPoint.y, givenNewPoint.x, givenNewPoint.y);
     }
 
     @Override

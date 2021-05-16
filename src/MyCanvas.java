@@ -18,7 +18,7 @@ public class MyCanvas extends JPanel {
             public void mousePressed(MouseEvent e) {
                 startPoint = new Point(e.getX(), e.getY());
                 endPoint = new Point(e.getX(), e.getY());
-                theDrawController.createDrawOject(startPoint,endPoint);
+                theDrawController.createDrawObj(startPoint,endPoint);
                 theDrawedObjectList = theDrawController.getDrawingList();
                 repaint();
             }
@@ -36,7 +36,7 @@ public class MyCanvas extends JPanel {
             public void mouseDragged(MouseEvent e) {
                 mousedrage = true;
                 endPoint = new Point(e.getX(),e.getY());
-                theDrawController.createDrawOject(startPoint,endPoint,mousedrage);
+                theDrawController.detectMouseDrag(startPoint,endPoint);
                 theDrawedObjectList = theDrawController.getDrawingList();
                 repaint();
             }

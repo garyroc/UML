@@ -1,57 +1,57 @@
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class DrawableCompositeBox extends Drawable {
+public class DrawableCompositeBox extends DrawableObject {
     CompositeTypeObj belongedCompObj;
     private Rectangle2D objArea;
-    protected Point oriStartPoint;
-    protected Point oriEndPoint;
+//    protected Point oriStartPoint;
+    protected Point oriRightDownPoint;
 
     public DrawableCompositeBox(Point givenStartPoint, Point givenEndPoint, int givenDepth, CompositeTypeObj givenCompositeTypeObj) {
-        super(givenStartPoint,givenDepth,false);
+        super(givenStartPoint,givenDepth);
         text = "Composite";
         belongedCompObj = givenCompositeTypeObj;
-        endPoint = givenEndPoint;
-        objArea = makeRectangle(startPoint.x,startPoint.y, endPoint.x, endPoint.y);
-        oriStartPoint = new Point(0,0);
-        oriEndPoint = new Point(0,0);
-        oriStartPoint.x = startPoint.x;
-        oriStartPoint.y = startPoint.y;
-        oriEndPoint.x = endPoint.x;
-        oriEndPoint.y = endPoint.y;
+        rightDownPoint = givenEndPoint;
+        objArea = makeRectangle(leftUpPoint.x,leftUpPoint.y, rightDownPoint.x, rightDownPoint.y);
+        oriLeftUpPoint = new Point(0,0);
+        oriRightDownPoint = new Point(0,0);
+        oriLeftUpPoint.x = leftUpPoint.x;
+        oriLeftUpPoint.y = leftUpPoint.y;
+        oriRightDownPoint.x = rightDownPoint.x;
+        oriRightDownPoint.y = rightDownPoint.y;
     }
 
     @Override
     protected void paintObject(Graphics g) {
         if (isMoving) {
-            objArea = makeRectangle(startPoint.x,startPoint.y, endPoint.x, endPoint.y);
+            objArea = makeRectangle(leftUpPoint.x,leftUpPoint.y, rightDownPoint.x, rightDownPoint.y);
             Graphics2D g2 = (Graphics2D) g;
             g2.setColor(Color.RED);
             g2.draw(objArea);
-            g.drawString(text,startPoint.x,startPoint.y-10);
+            g.drawString(text,leftUpPoint.x,leftUpPoint.y-10);
         }
         else {
-            objArea = makeRectangle(oriStartPoint.x,oriStartPoint.y, oriEndPoint.x, oriEndPoint.y);
+            objArea = makeRectangle(oriLeftUpPoint.x,oriLeftUpPoint.y, oriRightDownPoint.x, oriRightDownPoint.y);
             Graphics2D g2 = (Graphics2D) g;
             g2.setColor(Color.RED);
             g2.draw(objArea);
-            g.drawString(text,oriStartPoint.x,oriStartPoint.y-10);
+            g.drawString(text,oriLeftUpPoint.x,oriLeftUpPoint.y-10);
         }
     }
 
     @Override
     public void moveDrawableObj(int x_mov, int y_mov) {
         if (isMoving) {
-            startPoint.x = oriStartPoint.x + x_mov;
-            startPoint.y = oriStartPoint.y + y_mov;
-            endPoint.x = oriEndPoint.x + x_mov;
-            endPoint.y = oriEndPoint.y + y_mov;
-            objArea = makeRectangle(startPoint.x,startPoint.y, endPoint.x, endPoint.y);
+            leftUpPoint.x = oriLeftUpPoint.x + x_mov;
+            leftUpPoint.y = oriLeftUpPoint.y + y_mov;
+            rightDownPoint.x = oriRightDownPoint.x + x_mov;
+            rightDownPoint.y = oriRightDownPoint.y + y_mov;
+            objArea = makeRectangle(leftUpPoint.x,leftUpPoint.y, rightDownPoint.x, rightDownPoint.y);
         }
         else {
-            oriStartPoint = new Point(startPoint.x, startPoint.y);
-            oriEndPoint = new Point(endPoint.x, endPoint.y);
-            objArea = makeRectangle(oriStartPoint.x,oriStartPoint.y, oriEndPoint.x, oriEndPoint.y);
+            oriLeftUpPoint = new Point(leftUpPoint.x, leftUpPoint.y);
+            oriRightDownPoint = new Point(rightDownPoint.x, rightDownPoint.y);
+            objArea = makeRectangle(oriLeftUpPoint.x,oriLeftUpPoint.y, oriRightDownPoint.x, oriRightDownPoint.y);
         }
     }
 
@@ -68,7 +68,7 @@ public class DrawableCompositeBox extends Drawable {
     @Override
     public boolean checkHoleObjectOverlap(Shape givenShape) {
         boolean testResult = false;
-        if (givenShape.contains(this.getStartPoint()) && givenShape.contains(this.getRightDownPoint())) {
+        if (givenShape.contains(this.getLeftUpPoint()) && givenShape.contains(this.getRightDownPoint())) {
             testResult = true;
         }
         return testResult;

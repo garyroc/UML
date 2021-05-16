@@ -1,27 +1,29 @@
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
-public class DrawableClass extends Drawable {
+public class DrawableClass extends DrawableObject {
     private static int OFFSET_CORRECTION = 40;
     private int width = 100;
-    private int heigh = 40;
+    private int height = 40;
     private int connectionPointWidth = 10;
-    protected Point oriStartPoint;
+//    protected Point orileftUpPoint;
     private Rectangle2D objArea; //For check point overlap purpose
 
     public DrawableClass(Point givenPoint, int givenDepth) {
-        super(givenPoint,givenDepth, false);
+//        super(givenPoint,givenDepth, false);
+        super(givenPoint,givenDepth);
         text = "Class";
-        objArea = new Rectangle(startPoint.x-3,startPoint.y-3, width+6, 3*heigh+6);
+        objArea = new Rectangle(leftUpPoint.x-3,leftUpPoint.y-3, width+6, 3* height +6);
         northPoint = new Point(givenPoint.x+(width/2), givenPoint.y);
-        eastPoint = new Point(givenPoint.x+width, givenPoint.y+(heigh*3/2));
-        southPoint = new Point(givenPoint.x+(width/2) ,givenPoint.y+heigh*3);
-        westPoint = new Point(givenPoint.x, givenPoint.y+(heigh*3/2));
+        eastPoint = new Point(givenPoint.x+width, givenPoint.y+(height *3/2));
+        southPoint = new Point(givenPoint.x+(width/2) ,givenPoint.y+ height *3);
+        westPoint = new Point(givenPoint.x, givenPoint.y+(height *3/2));
 
-        endPoint = new Point(startPoint.x+width,startPoint.y+heigh*3);
-        oriStartPoint = new Point(0,0);
-        oriStartPoint.x = startPoint.x;
-        oriStartPoint.y = startPoint.y;
+        rightDownPoint = new Point(leftUpPoint.x+width,leftUpPoint.y+ height *3);
+        oriLeftUpPoint = new Point(0,0);
+        oriLeftUpPoint.x = leftUpPoint.x;
+        oriLeftUpPoint.y = leftUpPoint.y;
     }
 
     @Override
@@ -29,55 +31,87 @@ public class DrawableClass extends Drawable {
 
         if (isMoving) {
             g.setColor(Color.GRAY);
-            g.fillRect(startPoint.x-2,startPoint.y-2, width+4, 3*heigh+4);
+            g.fillRect(leftUpPoint.x-2,leftUpPoint.y-2, width+4, 3* height +4);
             g.setColor(Color.BLACK);
-            g.drawRect(startPoint.x, startPoint.y, width, heigh);
-            g.drawRect(startPoint.x, startPoint.y+OFFSET_CORRECTION, width, heigh);
-            g.drawRect(startPoint.x, startPoint.y+2*OFFSET_CORRECTION, width, heigh);
-            g.drawRect(startPoint.x-2,startPoint.y-2, width+4, 3*heigh+4);
+            g.drawRect(leftUpPoint.x, leftUpPoint.y, width, height);
+            g.drawRect(leftUpPoint.x, leftUpPoint.y+OFFSET_CORRECTION, width, height);
+            g.drawRect(leftUpPoint.x, leftUpPoint.y+2*OFFSET_CORRECTION, width, height);
+            g.drawRect(leftUpPoint.x-2,leftUpPoint.y-2, width+4, 3* height +4);
             if (getSelectedState()) {
                 g.fillRect(northPoint.x, northPoint.y-connectionPointWidth, connectionPointWidth, connectionPointWidth);
                 g.fillRect(eastPoint.x, eastPoint.y, connectionPointWidth, connectionPointWidth);
                 g.fillRect(southPoint.x, southPoint.y, connectionPointWidth, connectionPointWidth);
                 g.fillRect(westPoint.x-connectionPointWidth, westPoint.y, connectionPointWidth, connectionPointWidth);
             }
-            g.drawString(text,startPoint.x+(width/3),startPoint.y+(heigh/2));
+            g.drawString(text,leftUpPoint.x+(width/3),leftUpPoint.y+(height /2));
 
         }
         else {
             g.setColor(Color.GRAY);
-            g.fillRect(oriStartPoint.x-2,oriStartPoint.y-2, width+4, 3*heigh+4);
+            g.fillRect(oriLeftUpPoint.x-2, oriLeftUpPoint.y-2, width+4, 3* height +4);
             g.setColor(Color.BLACK);
-            g.drawRect(oriStartPoint.x, oriStartPoint.y, width, heigh);
-            g.drawRect(oriStartPoint.x, oriStartPoint.y+OFFSET_CORRECTION, width, heigh);
-            g.drawRect(oriStartPoint.x, oriStartPoint.y+2*OFFSET_CORRECTION, width, heigh);
-            g.drawRect(oriStartPoint.x-2,oriStartPoint.y-2, width+4, 3*heigh+4);
+            g.drawRect(oriLeftUpPoint.x, oriLeftUpPoint.y, width, height);
+            g.drawRect(oriLeftUpPoint.x, oriLeftUpPoint.y+OFFSET_CORRECTION, width, height);
+            g.drawRect(oriLeftUpPoint.x, oriLeftUpPoint.y+2*OFFSET_CORRECTION, width, height);
+            g.drawRect(oriLeftUpPoint.x-2, oriLeftUpPoint.y-2, width+4, 3* height +4);
             if (getSelectedState()) {
                 g.fillRect(northPoint.x, northPoint.y-connectionPointWidth, connectionPointWidth, connectionPointWidth);
                 g.fillRect(eastPoint.x, eastPoint.y, connectionPointWidth, connectionPointWidth);
                 g.fillRect(southPoint.x, southPoint.y, connectionPointWidth, connectionPointWidth);
                 g.fillRect(westPoint.x-connectionPointWidth, westPoint.y, connectionPointWidth, connectionPointWidth);
             }
-            g.drawString(text,oriStartPoint.x+(width/3),oriStartPoint.y+(heigh/2));
+            g.drawString(text, oriLeftUpPoint.x+(width/3), oriLeftUpPoint.y+(height /2));
         }
     }
 
     @Override
     public void moveDrawableObj(int x_mov, int y_mov) {
         if (isMoving) {
-            startPoint.x = oriStartPoint.x+x_mov;
-            startPoint.y = oriStartPoint.y+y_mov;
-            objArea = new Rectangle(startPoint.x-3,startPoint.y-3, width+6, 3*heigh+6);
-            northPoint = new Point(startPoint.x+(width/2), startPoint.y);
-            eastPoint = new Point(startPoint.x+width, startPoint.y+(heigh*3/2));
-            southPoint = new Point(startPoint.x+(width/2) ,startPoint.y+heigh*3);
-            westPoint = new Point(startPoint.x, startPoint.y+(heigh*3/2));
+            leftUpPoint.x = oriLeftUpPoint.x+x_mov;
+            leftUpPoint.y = oriLeftUpPoint.y+y_mov;
+            objArea = new Rectangle(leftUpPoint.x-3,leftUpPoint.y-3, width+6, 3* height +6);
+            northPoint = new Point(leftUpPoint.x+(width/2), leftUpPoint.y);
+            eastPoint = new Point(leftUpPoint.x+width, leftUpPoint.y+(height *3/2));
+            southPoint = new Point(leftUpPoint.x+(width/2) ,leftUpPoint.y+ height *3);
+            westPoint = new Point(leftUpPoint.x, leftUpPoint.y+(height *3/2));
         }
         else {
-            oriStartPoint.x = startPoint.x;
-            oriStartPoint.y = startPoint.y;
-            endPoint = new Point(oriStartPoint.x+width,oriStartPoint.y+heigh*3);
+            oriLeftUpPoint.x = leftUpPoint.x;
+            oriLeftUpPoint.y = leftUpPoint.y;
+            rightDownPoint = new Point(oriLeftUpPoint.x+width, oriLeftUpPoint.y+ height *3);
         }
+    }
+
+    public CONNECT_POSITION isConnectToObj(Point givenPoint) {
+        CONNECT_POSITION resultPosition = null;
+        if (checkPointOverlap(givenPoint)) {
+            double closestDistance = 9999999999999999.9; // give a very big number
+            for (CONNECT_POSITION position : CONNECT_POSITION.values()) {
+                switch (position) {
+                    case NORTH:
+                        if (northPoint.distance(givenPoint) < closestDistance) {
+                            closestDistance = northPoint.distance(givenPoint);
+                            resultPosition = CONNECT_POSITION.NORTH;
+                        }
+                    case EAST:
+                        if (eastPoint.distance(givenPoint) < closestDistance) {
+                            closestDistance = eastPoint.distance(givenPoint);
+                            resultPosition = CONNECT_POSITION.EAST;
+                        }
+                    case SOUTH:
+                        if (southPoint.distance(givenPoint) < closestDistance) {
+                            closestDistance = southPoint.distance(givenPoint);
+                            resultPosition = CONNECT_POSITION.SOUTH;
+                        }
+                    case WEST:
+                        if (westPoint.distance(givenPoint) < closestDistance) {
+                            closestDistance = westPoint.distance(givenPoint);
+                            resultPosition = CONNECT_POSITION.WEST;
+                        }
+                }
+            }
+        }
+        return resultPosition; //if is overlap give closest point otherwise give null
     }
 
     @Override
