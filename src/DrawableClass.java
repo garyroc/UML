@@ -7,11 +7,9 @@ public class DrawableClass extends DrawableObject {
     private int width = 100;
     private int height = 40;
     private int connectionPointWidth = 10;
-//    protected Point orileftUpPoint;
     private Rectangle2D objArea; //For check point overlap purpose
 
     public DrawableClass(Point givenPoint, int givenDepth) {
-//        super(givenPoint,givenDepth, false);
         super(givenPoint,givenDepth);
         text = "Class";
         objArea = new Rectangle(leftUpPoint.x-3,leftUpPoint.y-3, width+6, 3* height +6);
@@ -80,38 +78,6 @@ public class DrawableClass extends DrawableObject {
             oriLeftUpPoint.y = leftUpPoint.y;
             rightDownPoint = new Point(oriLeftUpPoint.x+width, oriLeftUpPoint.y+ height *3);
         }
-    }
-
-    public CONNECT_POSITION isConnectToObj(Point givenPoint) {
-        CONNECT_POSITION resultPosition = null;
-        if (checkPointOverlap(givenPoint)) {
-            double closestDistance = 9999999999999999.9; // give a very big number
-            for (CONNECT_POSITION position : CONNECT_POSITION.values()) {
-                switch (position) {
-                    case NORTH:
-                        if (northPoint.distance(givenPoint) < closestDistance) {
-                            closestDistance = northPoint.distance(givenPoint);
-                            resultPosition = CONNECT_POSITION.NORTH;
-                        }
-                    case EAST:
-                        if (eastPoint.distance(givenPoint) < closestDistance) {
-                            closestDistance = eastPoint.distance(givenPoint);
-                            resultPosition = CONNECT_POSITION.EAST;
-                        }
-                    case SOUTH:
-                        if (southPoint.distance(givenPoint) < closestDistance) {
-                            closestDistance = southPoint.distance(givenPoint);
-                            resultPosition = CONNECT_POSITION.SOUTH;
-                        }
-                    case WEST:
-                        if (westPoint.distance(givenPoint) < closestDistance) {
-                            closestDistance = westPoint.distance(givenPoint);
-                            resultPosition = CONNECT_POSITION.WEST;
-                        }
-                }
-            }
-        }
-        return resultPosition; //if is overlap give closest point otherwise give null
     }
 
     @Override

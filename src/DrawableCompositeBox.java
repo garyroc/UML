@@ -61,6 +61,8 @@ public class DrawableCompositeBox extends DrawableObject {
         belongedCompObj.setBelongObjSelected(givenValue);
     }
 
+    public CONNECT_POSITION isConnectToObj(Point givenPoint) { return null; }
+
     @Override
     public boolean checkPointOverlap(Point givenPoint) {
         return objArea.contains(givenPoint);

@@ -32,7 +32,7 @@ public class DrawableLine extends Drawable {
     public Drawable getEndPointObject() { return endPointObject; }
 
     /* For determine line exist or not */
-    public boolean starPointcheck(ArrayList<DrawableObject> givenDrawObjList) {
+    public boolean starPointCheck(ArrayList<DrawableObject> givenDrawObjList) {
         boolean testResult = false;
         CONNECT_POSITION connectPosition;
         for (DrawableObject drawObj : givenDrawObjList) {
@@ -40,6 +40,7 @@ public class DrawableLine extends Drawable {
             if (connectPosition != null ) {
                 setStartPointObject(drawObj);
                 setStartPointPosition(connectPosition);
+                startPoint = drawObj.getConnectedPoint(connectPosition); // update start point
                 testResult = true;
                 break;
             }
@@ -47,7 +48,7 @@ public class DrawableLine extends Drawable {
         return testResult;
     }
 
-    public boolean endPointcheck(ArrayList<DrawableObject> givenDrawObjList) {
+    public boolean endPointCheck(ArrayList<DrawableObject> givenDrawObjList) {
         boolean testResult = false;
         CONNECT_POSITION connectPosition;
         for (DrawableObject drawObj : givenDrawObjList) {
@@ -55,6 +56,7 @@ public class DrawableLine extends Drawable {
             if (connectPosition != null ) {
                 setEndPointObject(drawObj);
                 setEndPointPosition(connectPosition);
+                endPoint = drawObj.getConnectedPoint(connectPosition); // update end point
                 testResult = true;
                 break;
             }

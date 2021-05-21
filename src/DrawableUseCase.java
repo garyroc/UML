@@ -24,7 +24,6 @@ public class DrawableUseCase extends DrawableObject{
         oriLeftUpPoint.y = leftUpPoint.y;
     }
 
-
     @Override
     protected void paintObject(Graphics g) {
         if (isMoving) {

@@ -42,7 +42,38 @@ public class DrawableObject extends Drawable implements CompositePortocolInterfa
     public Point getSouthPoint() { return southPoint; }
     public Point getWestPoint() {return westPoint; }
 
-    public CONNECT_POSITION isConnectToObj(Point givenPoint) { return null; }
+    public CONNECT_POSITION isConnectToObj(Point givenPoint) {
+        CONNECT_POSITION resultPosition = null;
+        if (checkPointOverlap(givenPoint)) {
+            /* Calculate nearest connect position */
+            double closestDistance = 9999999999999999.9; // give a very big number
+            for (CONNECT_POSITION position : CONNECT_POSITION.values()) {
+                switch (position) {
+                    case NORTH:
+                        if (northPoint.distance(givenPoint) < closestDistance) {
+                            closestDistance = northPoint.distance(givenPoint);
+                            resultPosition = CONNECT_POSITION.NORTH;
+                        }
+                    case EAST:
+                        if (eastPoint.distance(givenPoint) < closestDistance) {
+                            closestDistance = eastPoint.distance(givenPoint);
+                            resultPosition = CONNECT_POSITION.EAST;
+                        }
+                    case SOUTH:
+                        if (southPoint.distance(givenPoint) < closestDistance) {
+                            closestDistance = southPoint.distance(givenPoint);
+                            resultPosition = CONNECT_POSITION.SOUTH;
+                        }
+                    case WEST:
+                        if (westPoint.distance(givenPoint) < closestDistance) {
+                            closestDistance = westPoint.distance(givenPoint);
+                            resultPosition = CONNECT_POSITION.WEST;
+                        }
+                }
+            }
+        }
+        return resultPosition; //if is overlap give closest point otherwise give null
+    }
 
     public ArrayList<Drawable> composeObj(){
         return null;
