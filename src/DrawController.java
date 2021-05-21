@@ -25,14 +25,7 @@ public class DrawController {
         Drawable resultDrawObject = null;
         switch (currentState) {
             case SELECT:
-//                selectObj(givenStartPoint);
-//                if (checkMovingObj()) {
-//                    movingObj = true;
-//                    setMovingObjMoving(true);
-//                }
-//                else {
-//                    resultDrawObject = new DrawableSelectBox(givenStartPoint, mainDepth);
-//                }
+                selectObj(givenStartPoint);
                 break;
             case ASSOCIATION_LINE:
                 resultDrawObject = new DrawableAssociationLine(givenStartPoint, givenEndPoint,mainDepth);
@@ -141,8 +134,23 @@ public class DrawController {
         }
     }
 
-    private void selectObj(Point givenPoint) {
+    private void unSelectAll() {
+        for (DrawableObject drawObj : drawnObjList) {
+            drawObj.setSelectedState(false);
+        }
+    }
 
+    private void selectObj(Point givenPoint) {
+        unSelectAll();
+        DrawableObject drawObj;
+        /* reverse loop traverse */
+        for (int i = drawnObjList.size()-1; i>=0 ; i--) {
+            drawObj = drawnObjList.get(i);
+            if (drawObj.checkPointOverlap(givenPoint)) {
+                drawObj.setSelectedState(true);
+                break;
+            }
+        }
     }
 
     private void selectGroupOfObj(Point givenStartPoint , Point givenEndPoint) {
@@ -180,23 +188,6 @@ public class DrawController {
     }
 
     public void unGroupObj() {
-//        ArrayList<CompositeProtocol> beenSelectedList = new ArrayList<CompositeProtocol>();
-//        Drawable drawableObj;
-//        for (CompositeProtocol treeMember : mainCompositeTree) {
-//            if (treeMember.myType == CompositeProtocol.OBJ_TYPE.COMPOSITE_OBJ) {
-//                /* Find Selected group */
-//                drawableObj = ((CompositeTypeObj)treeMember).getRepresentDrawableObj();
-//                if (drawableObj.getSelectedState()) {
-//                    beenSelectedList.add(treeMember);
-//                }
-//            }
-//        }
-//        /* Remove selected object from mainCompositeTree */
-//        for (CompositeProtocol removeObj : beenSelectedList) {
-//            mainCompositeTree.remove(removeObj);
-//            mainCompositeTree.addAll(removeObj.decompose(removeObj));
-//            ((CompositeTypeObj)removeObj).setRepresentDrawableObj(null);
-//        }
     }
 
     private ArrayList<Drawable> getSelectedObj() {
