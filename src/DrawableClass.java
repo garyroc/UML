@@ -86,10 +86,11 @@ public class DrawableClass extends DrawableObject {
     }
     @Override
     public boolean checkHoleObjectOverlap(Shape givenShape) {
-        boolean testResult = false;
+//        boolean testResult = false;
         if (givenShape.contains(this.getNorthPoint()) && givenShape.contains(this.getEastPoint()) && givenShape.contains(this.getSouthPoint()) && givenShape.contains(this.getWestPoint())) {
-            testResult = true;
+            this.setSelectedState(true);
+            return true;
         }
-        return testResult;
+        return false;
     }
 }

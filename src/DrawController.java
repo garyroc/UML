@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -17,45 +18,41 @@ public class DrawController {
         SELECT, ASSOCIATION_LINE, GENERALIZATION_LINE, COMPOSITION_LINE, THE_CLASSOBJECT, THE_USECASE
     }
 
-    public DrawController() {
-
-    }
+    public DrawController() {    }
 
     public void createDrawObj(Point givenStartPoint, Point givenEndPoint) {
-        Drawable resultDrawObject = null;
+        DrawableObject resultDrawObject = null;
         switch (currentState) {
             case SELECT:
                 selectObj(givenStartPoint);
+                if (!(checkMoveObjOrNot())) {
+                    resultDrawObject = new DrawableSelectBox(givenStartPoint,mainDepth);
+                    drawnObjList.add(resultDrawObject);
+                }
                 break;
             case ASSOCIATION_LINE:
-                resultDrawObject = new DrawableAssociationLine(givenStartPoint, givenEndPoint,mainDepth);
-                resultDrawObject.setSelectedState(true);
-                drawnLineList.add((DrawableLine) resultDrawObject);
+                drawnLineList.add(new DrawableAssociationLine(givenStartPoint, givenEndPoint,mainDepth));
+                lineCreateCheck(drawnLineList.get(drawnLineList.size()-1));
                 break;
             case GENERALIZATION_LINE:
-                resultDrawObject = new DrawableGeneralizationLine(givenStartPoint, givenEndPoint,mainDepth);
-                resultDrawObject.setSelectedState(true);
-                drawnLineList.add((DrawableLine) resultDrawObject);
+                drawnLineList.add(new DrawableGeneralizationLine(givenStartPoint, givenEndPoint,mainDepth));
+                lineCreateCheck(drawnLineList.get(drawnLineList.size()-1));
                 break;
             case COMPOSITION_LINE:
-                resultDrawObject = new DrawableCompositionLine(givenStartPoint, givenEndPoint,mainDepth);
-                resultDrawObject.setSelectedState(true);
-                drawnLineList.add((DrawableLine) resultDrawObject);
+                drawnLineList.add(new DrawableCompositionLine(givenStartPoint, givenEndPoint,mainDepth));
+                lineCreateCheck(drawnLineList.get(drawnLineList.size()-1));
                 break;
             case THE_CLASSOBJECT:
                 resultDrawObject = new DrawableClass(givenStartPoint, mainDepth);
-                drawnObjList.add((DrawableObject) resultDrawObject);
+                drawnObjList.add(resultDrawObject);
                 break;
             case THE_USECASE:
                 resultDrawObject = new DrawableUseCase(givenStartPoint, mainDepth);
-                drawnObjList.add((DrawableObject) resultDrawObject);
+                drawnObjList.add(resultDrawObject);
                 break;
         }
         if(resultDrawObject != null ) {
             mainDepth++;
-        }
-        if (currentState == PAINT_TOOL.ASSOCIATION_LINE || currentState == PAINT_TOOL.GENERALIZATION_LINE || currentState == PAINT_TOOL.COMPOSITION_LINE) {
-            lineCreateCheck((DrawableLine) resultDrawObject);
         }
     }
 
@@ -63,6 +60,12 @@ public class DrawController {
     public void detectMouseDrag(Point givenStartPoint, Point givenEndPoint) {
         switch (currentState) {
             case SELECT:
+                if (checkMoveObjOrNot()) {
+
+                }
+                else {
+                    drawnObjList.get(drawnObjList.size()-1).updateDrawableObj(givenEndPoint); // update selecting box size
+                }
                 break;
             case ASSOCIATION_LINE:
             case GENERALIZATION_LINE:
@@ -84,6 +87,13 @@ public class DrawController {
     public void checkDrawObj(Point givenStartPoint, Point givenEndPoint) {
         switch (currentState) {
             case SELECT:
+                if (checkMoveObjOrNot()) {
+
+                }
+                else {
+                    drawnObjList.remove(drawnObjList.size()-1);
+                    selectGroupOfObj(givenStartPoint,givenEndPoint);
+                }
                 break;
             case ASSOCIATION_LINE:
             case GENERALIZATION_LINE:
@@ -154,18 +164,19 @@ public class DrawController {
     }
 
     private void selectGroupOfObj(Point givenStartPoint , Point givenEndPoint) {
-
+        Shape rect = new Rectangle2D.Float(Math.min(givenStartPoint.x,givenEndPoint.x), Math.min(givenStartPoint.y,givenEndPoint.y), Math.abs(givenStartPoint.x-givenEndPoint.x), Math.abs(givenStartPoint.y-givenEndPoint.y));
+        for(DrawableObject drawObj : drawnObjList) {
+            drawObj.checkHoleObjectOverlap(rect);
+        }
     }
 
-    private boolean checkMovingObj() {
-        boolean testResult = false;
-//        createDrawingList(mainCompositeTree);
-//        for(Drawable drawObj : drawingObjectList) {
-//            if (drawObj.getSelectedState()) {
-//                testResult = true;
-//            }
-//        }
-        return testResult;
+    private boolean checkMoveObjOrNot() {
+        for(DrawableObject drawObj : drawnObjList) {
+            if (drawObj.getSelectedState()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private ArrayList<CompositeProtocol> newTraversalCompositeTree (ArrayList<CompositeProtocol> givenCompositeTree) {

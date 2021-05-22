@@ -13,11 +13,12 @@ public class Drawable implements Comparable {
         return this.objDepth-compareDepth;
     }
 
+
     public enum CONNECT_POSITION {
         NORTH, EAST, SOUTH, WEST
     }
 
-    public Drawable(Point givenPoint, int givenDepth, boolean isLine) {
+    public Drawable(Point givenPoint, int givenDepth) {
         this.objDepth = givenDepth;
     }
 

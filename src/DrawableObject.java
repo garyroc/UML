@@ -12,7 +12,7 @@ public class DrawableObject extends Drawable implements CompositePortocolInterfa
     protected Point westPoint = null;
 
     public DrawableObject(Point givenPoint, int givenDepth) {
-        super(givenPoint,givenDepth, false);
+        super(givenPoint,givenDepth);
         leftUpPoint = givenPoint;
     }
 
@@ -74,6 +74,8 @@ public class DrawableObject extends Drawable implements CompositePortocolInterfa
         }
         return resultPosition; //if is overlap give closest point otherwise give null
     }
+
+    public void updateDrawableObj(Point givenNewPoint) {    }
 
     public ArrayList<Drawable> composeObj(){
         return null;

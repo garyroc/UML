@@ -10,9 +10,10 @@ public class DrawableLine extends Drawable {
     protected CONNECT_POSITION endPointPosition = null;
 
     public DrawableLine(Point givenStartPoint, Point givenEndPoint, int givenDepth) {
-        super(givenStartPoint, givenDepth, true);
+        super(givenStartPoint, givenDepth);
         startPoint = givenStartPoint;
         endPoint = givenEndPoint;
+        selectedState = true;
     }
 
     public Point getStartPoint() { return startPoint; }
@@ -33,7 +34,6 @@ public class DrawableLine extends Drawable {
 
     /* For determine line exist or not */
     public boolean starPointCheck(ArrayList<DrawableObject> givenDrawObjList) {
-        boolean testResult = false;
         CONNECT_POSITION connectPosition;
         for (DrawableObject drawObj : givenDrawObjList) {
             connectPosition = drawObj.isConnectToObj(startPoint);
@@ -41,26 +41,23 @@ public class DrawableLine extends Drawable {
                 setStartPointObject(drawObj);
                 setStartPointPosition(connectPosition);
                 startPoint = drawObj.getConnectedPoint(connectPosition); // update start point
-                testResult = true;
-                break;
+                return true;
             }
         }
-        return testResult;
+        return false;
     }
 
     public boolean endPointCheck(ArrayList<DrawableObject> givenDrawObjList) {
-        boolean testResult = false;
         CONNECT_POSITION connectPosition;
         for (DrawableObject drawObj : givenDrawObjList) {
             connectPosition = drawObj.isConnectToObj(endPoint);
-            if (connectPosition != null ) {
+            if (connectPosition != null && drawObj != startPointObject) {
                 setEndPointObject(drawObj);
                 setEndPointPosition(connectPosition);
                 endPoint = drawObj.getConnectedPoint(connectPosition); // update end point
-                testResult = true;
-                break;
+                return true;
             }
         }
-        return testResult;
+        return false;
     }
 }

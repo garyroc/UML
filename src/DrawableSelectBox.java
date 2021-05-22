@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.geom.*;
-import javax.swing.*;
 
 public class DrawableSelectBox extends DrawableObject {
     private Shape rect;
@@ -9,9 +8,9 @@ public class DrawableSelectBox extends DrawableObject {
 
     public DrawableSelectBox (Point givenStartPoint, int givenDepth) {
         super(givenStartPoint, givenDepth);
-        updateWidthAndHeigh(givenStartPoint);
+        updateDrawableObj(givenStartPoint);
     }
-    public void updateWidthAndHeigh(Point givenNewPoint) {
+    public void updateDrawableObj(Point givenNewPoint) {
         rect = makeRectangle(leftUpPoint.x, leftUpPoint.y, givenNewPoint.x, givenNewPoint.y);
     }
 
