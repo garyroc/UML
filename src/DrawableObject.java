@@ -21,22 +21,12 @@ public class DrawableObject extends Drawable implements CompositePortocolInterfa
     }
 
     public Point getConnectedPoint(CONNECT_POSITION givenPosition) {
-        Point resultPoint = null;
-        switch (givenPosition) {
-            case NORTH:
-                resultPoint = getNorthPoint();
-                break;
-            case EAST:
-                resultPoint = getEastPoint();
-                break;
-            case SOUTH:
-                resultPoint = getSouthPoint();
-                break;
-            case WEST:
-                resultPoint = getWestPoint();
-                break;
-        }
-        return resultPoint;
+        return switch (givenPosition) {
+            case NORTH -> getNorthPoint();
+            case EAST -> getEastPoint();
+            case SOUTH -> getSouthPoint();
+            case WEST -> getWestPoint();
+        };
     }
 
     public Point getLeftUpPoint() { return leftUpPoint; }
@@ -80,7 +70,7 @@ public class DrawableObject extends Drawable implements CompositePortocolInterfa
     }
 
     public void updateDrawableObj(Point givenNewPoint) {    }
-    public int getChildrenSize() { return 0;  }
+    public int getChildrenSize() { return 0; }
 
 
     public DrawableObject composeObj(){

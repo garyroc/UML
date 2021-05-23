@@ -25,7 +25,7 @@ public class DrawController {
         switch (currentState) {
             case SELECT:
                 selectObj(givenStartPoint);
-                if (!(checkMoveObjOrNot())) {
+                if (!(isMoveObj())) {
                     resultDrawObject = new DrawableSelectBox(givenStartPoint,mainDepth);
                     drawnObjList.add(resultDrawObject);
                 }
@@ -60,8 +60,8 @@ public class DrawController {
     public void detectMouseDrag(Point givenStartPoint, Point givenEndPoint) {
         switch (currentState) {
             case SELECT:
-                if (checkMoveObjOrNot()) {
-
+                if (isMoveObj()) {
+                    moveObject(givenStartPoint, givenEndPoint);
                 }
                 else {
                     drawnObjList.get(drawnObjList.size()-1).updateDrawableObj(givenEndPoint); // update selecting box size
@@ -87,8 +87,8 @@ public class DrawController {
     public void checkDrawObj(Point givenStartPoint, Point givenEndPoint) {
         switch (currentState) {
             case SELECT:
-                if (checkMoveObjOrNot()) {
-
+                if (isMoveObj()) {
+                    finishMoveObject();
                 }
                 else {
                     drawnObjList.remove(drawnObjList.size()-1);
@@ -170,28 +170,14 @@ public class DrawController {
         }
     }
 
-    private boolean checkMoveObjOrNot() {
+    /* If there is any object under selected return true */
+    private boolean isMoveObj() {
         for(DrawableObject drawObj : drawnObjList) {
             if (drawObj.getSelectedState()) {
                 return true;
             }
         }
         return false;
-    }
-
-    private boolean checkMultipleObjSelected() {
-        int selectedObjNum = 0;
-        for (DrawableObject drawObj : drawnObjList) {
-            if (drawObj.getSelectedState()) {
-                selectedObjNum++;
-            }
-        }
-        if (selectedObjNum > 1) {
-            return true;
-        }
-        else {
-            return false;
-        }
     }
 
     public void groupObj() {
@@ -215,23 +201,21 @@ public class DrawController {
         drawnObjList.addAll(decomposeObjList);
     }
 
-    private ArrayList<Drawable> getSelectedObj() {
-        return null;
-    }
-
-    private void setMovingObjMoving(boolean givenValue) {
-        ArrayList<Drawable> movingObjList = getSelectedObj();
-        for (Drawable movingObj : movingObjList) {
-            movingObj.setIsMoving(givenValue);
+    private void moveObject(Point givenStartPoint, Point givenEndPoint) {
+        int x_mov = givenEndPoint.x - givenStartPoint.x;
+        int y_mov = givenEndPoint.y - givenStartPoint.y;
+        for (DrawableObject drawObj : drawnObjList) {
+            if (drawObj.getSelectedState()) {
+                drawObj.moveDrawableObj(x_mov,y_mov);
+            }
         }
     }
 
-    private void movingObject(Point givenStartPoint, Point givenEndPoint) {
-        ArrayList<Drawable> movingObjList = getSelectedObj();
-        int movementDistance_X = givenEndPoint.x - givenStartPoint.x;
-        int movementDistance_Y = givenEndPoint.y - givenStartPoint.y;
-        for (Drawable movingObj : movingObjList) {
-            movingObj.moveDrawableObj(movementDistance_X,movementDistance_Y);
+    private void finishMoveObject() {
+        for (DrawableObject drawObj : drawnObjList) {
+            if (drawObj.getSelectedState()) {
+                drawObj.finishMovement();
+            }
         }
     }
 
@@ -251,11 +235,11 @@ public class DrawController {
     }
 
     public void reNameFunction(String givenName) {
-        ArrayList<Drawable> selectedObjList = getSelectedObj();
-        if (selectedObjList.size() == 1) {
-            Drawable renamingObj = selectedObjList.get(0);
-            renamingObj.setText(givenName);
-        }
+//        ArrayList<Drawable> selectedObjList = getSelectedObj();
+//        if (selectedObjList.size() == 1) {
+//            Drawable renamingObj = selectedObjList.get(0);
+//            renamingObj.setText(givenName);
+//        }
     }
 
     public void refreshCanvas() {

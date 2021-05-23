@@ -36,6 +36,7 @@ public class Drawable implements Comparable {
     public void setSelectedState(boolean givenValue) { selectedState = givenValue; }
     public boolean getSelectedState() { return selectedState; }
     public void moveDrawableObj(int x_mov, int y_mov) {    }
+    public void finishMovement() {   }
     public int getObjDepth() { return objDepth; }
 
     protected void paintObject(Graphics g){    }
