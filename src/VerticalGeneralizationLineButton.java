@@ -22,11 +22,13 @@ public class VerticalGeneralizationLineButton extends VerticalButton{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        /* Paint diagram */
         g.setColor(Color.BLACK);
         g.drawLine(15,35,25,25);
         g.drawLine(15,35,25,45);
         g.drawLine(25,25,25,45);
         g.drawLine(25,35,60,35);
+        /* Paint String */
         g.setFont(getFont());
         FontMetrics metrics = g.getFontMetrics(getFont());
         int stringWidth = metrics.stringWidth(getText());

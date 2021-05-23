@@ -22,11 +22,12 @@ public class VerticalUseClassButton extends VerticalButton{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        /* Paint diagram */
         g.setColor(Color.GRAY);
         g.fillOval(15,20,50,30);
         g.setColor(Color.BLACK);
         g.drawOval(15,20,50,30);
+        /* Paint String */
         g.setFont(getFont());
         FontMetrics metrics = g.getFontMetrics(getFont());
         int stringWidth = metrics.stringWidth(getText());

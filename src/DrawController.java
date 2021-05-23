@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class DrawController {
-    private PAINT_TOOL currentState = PAINT_TOOL.THE_CLASSOBJECT;
+    private PAINT_TOOL currentState = PAINT_TOOL.SELECT;
     protected ArrayList<Drawable> drawingObjectList;
 
     private final ArrayList<DrawableObject> drawnObjList = new ArrayList<>();
@@ -23,33 +23,33 @@ public class DrawController {
         DrawableObject resultDrawObject = null;
         unSelectAll();
         switch (currentState) {
-            case SELECT:
+            case SELECT -> {
                 selectObj(givenStartPoint);
                 if (!(isMoveObj())) {
-                    resultDrawObject = new DrawableSelectBox(givenStartPoint,mainDepth);
+                    resultDrawObject = new DrawableSelectBox(givenStartPoint, mainDepth);
                     drawnObjList.add(resultDrawObject);
                 }
-                break;
-            case ASSOCIATION_LINE:
-                drawnLineList.add(new DrawableAssociationLine(givenStartPoint, givenEndPoint,mainDepth));
-                lineCreateCheck(drawnLineList.get(drawnLineList.size()-1));
-                break;
-            case GENERALIZATION_LINE:
-                drawnLineList.add(new DrawableGeneralizationLine(givenStartPoint, givenEndPoint,mainDepth));
-                lineCreateCheck(drawnLineList.get(drawnLineList.size()-1));
-                break;
-            case COMPOSITION_LINE:
-                drawnLineList.add(new DrawableCompositionLine(givenStartPoint, givenEndPoint,mainDepth));
-                lineCreateCheck(drawnLineList.get(drawnLineList.size()-1));
-                break;
-            case THE_CLASSOBJECT:
+            }
+            case ASSOCIATION_LINE -> {
+                drawnLineList.add(new DrawableAssociationLine(givenStartPoint, givenEndPoint, mainDepth));
+                lineCreateCheck(drawnLineList.get(drawnLineList.size() - 1));
+            }
+            case GENERALIZATION_LINE -> {
+                drawnLineList.add(new DrawableGeneralizationLine(givenStartPoint, givenEndPoint, mainDepth));
+                lineCreateCheck(drawnLineList.get(drawnLineList.size() - 1));
+            }
+            case COMPOSITION_LINE -> {
+                drawnLineList.add(new DrawableCompositionLine(givenStartPoint, givenEndPoint, mainDepth));
+                lineCreateCheck(drawnLineList.get(drawnLineList.size() - 1));
+            }
+            case THE_CLASSOBJECT -> {
                 resultDrawObject = new DrawableClass(givenStartPoint, mainDepth);
                 drawnObjList.add(resultDrawObject);
-                break;
-            case THE_USECASE:
+            }
+            case THE_USECASE -> {
                 resultDrawObject = new DrawableUseCase(givenStartPoint, mainDepth);
                 drawnObjList.add(resultDrawObject);
-                break;
+            }
         }
         if(resultDrawObject != null ) {
             mainDepth++;

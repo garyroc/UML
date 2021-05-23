@@ -22,6 +22,7 @@ public class VerticalSelectButton extends VerticalButton{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        /* Paint diagram */
         int[]x = {20,30,45};
         int[]y = {20,45,35};
         int[]t_x = {28,30,49,45};
@@ -29,6 +30,7 @@ public class VerticalSelectButton extends VerticalButton{
         g.setColor(Color.BLACK);
         g.fillPolygon(x,y,3);
         g.fillPolygon(t_x,t_y,4);
+        /* Paint String */
         g.setFont(getFont());
         FontMetrics metrics = g.getFontMetrics(getFont());
         int stringWidth = metrics.stringWidth(getText());

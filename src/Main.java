@@ -7,7 +7,7 @@ public class Main {
     public JPanel theToolbarPositionPanel;
     public JPanel theToolbarPanel;
     public JPanel theVerticalToolPanel;
-    ArrayList<VerticalButton> verticalButtonList = new ArrayList<VerticalButton>();
+    ArrayList<VerticalButton> verticalButtonList = new ArrayList<>();
 
     public static void main(String[] args) {
         new Main().buildGUI();
@@ -26,10 +26,9 @@ public class Main {
         /* Controller and Canvas initialize */
         DrawController mainDrawController = new DrawController();
         MyCanvas theMainCanvas = new MyCanvas(mainDrawController);
-        ToolbarController theToolbarController = new ToolbarController(mainDrawController);
         /*Button initialize */
         JButton fileButton = new JButton("File");
-        ToolbarEditButton toolbarEditButton = new ToolbarEditButton("Edit",mainDrawController,theToolbarController);
+        ToolbarEditButton toolbarEditButton = new ToolbarEditButton("Edit",mainDrawController);
         /* Left hand side tool bar button initialization */
         VerticalButtonController mainVerticalButtonController = new VerticalButtonController(mainDrawController);
         verticalButtonList = mainVerticalButtonController.getVerticalButtonsList();
@@ -44,7 +43,7 @@ public class Main {
         theMainFrame.getContentPane().add(BorderLayout.NORTH,theToolbarPositionPanel);
         theMainFrame.getContentPane().add(BorderLayout.WEST,theVerticalToolPanel);
         theMainFrame.getContentPane().add(BorderLayout.CENTER,theMainCanvas);
-        theMainFrame.setSize(2000,1300);
+        theMainFrame.setSize(1900,1000);
         theMainFrame.setVisible(true);
     }
 }

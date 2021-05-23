@@ -4,11 +4,13 @@ import java.awt.event.MouseEvent;
 
 public class ToolbarEditButton extends JButton {
     DrawController theDrawController;
-    ToolbarController theToolbarController;
-    public ToolbarEditButton(String text, DrawController givenDrawController, ToolbarController givenToolbarController) {
+    JPopupMenu theEditMenu;
+
+    public ToolbarEditButton(String text, DrawController givenDrawController) {
         super(text);
-        this.theToolbarController = givenToolbarController;
         this.theDrawController = givenDrawController;
+        this.theEditMenu = new JPopupMenu();
+        initialButton();
 
         MouseAdapter mouseListener = new MouseAdapter(){
             @Override
@@ -23,7 +25,17 @@ public class ToolbarEditButton extends JButton {
         addMouseListener(mouseListener);
     }
 
-    private void popTheMenu() {
-        theToolbarController.getTheEditMenu().show(this,getX(),getY());
+    private void initialButton() {
+        ToolbarGroupButton groupOption = new ToolbarGroupButton("Group", theDrawController);
+        ToolbarUngroupButton unGroupOption = new ToolbarUngroupButton("UnGroup", theDrawController);
+        ToolbarRenameButton reNameOption = new ToolbarRenameButton("Rename",theDrawController);
+        theEditMenu.add(groupOption);
+        theEditMenu.add(unGroupOption);
+        theEditMenu.add(reNameOption);
     }
+
+    private void popTheMenu() {
+        theEditMenu.show(this,getX(),getY());
+    }
+
 }
