@@ -35,13 +35,13 @@ public class DrawableLine extends Drawable {
 
     /* For determine line exist or not */
     public boolean starPointCheck(ArrayList<DrawableObject> givenDrawObjList) {
-        CONNECT_POSITION connectPosition;
+        LineConnectionPackage connectPackage;
         for (DrawableObject drawObj : givenDrawObjList) {
-            connectPosition = drawObj.isConnectToObj(startPoint);
-            if (connectPosition != null ) {
-                setStartPointObject(drawObj);
-                setStartPointPosition(connectPosition);
-                startPoint = drawObj.getConnectedPoint(connectPosition); // update start point
+            connectPackage = drawObj.isConnectToObj(startPoint);
+            if (connectPackage.position != null ) {
+                setStartPointObject(connectPackage.drawObj);
+                setStartPointPosition(connectPackage.position);
+                startPoint = startPointObject.getConnectedPoint(startPointPosition); // update start point
                 return true;
             }
         }
@@ -49,13 +49,13 @@ public class DrawableLine extends Drawable {
     }
 
     public boolean endPointCheck(ArrayList<DrawableObject> givenDrawObjList) {
-        CONNECT_POSITION connectPosition;
+        LineConnectionPackage connectPackage;
         for (DrawableObject drawObj : givenDrawObjList) {
-            connectPosition = drawObj.isConnectToObj(endPoint);
-            if (connectPosition != null && drawObj != startPointObject) {
-                setEndPointObject(drawObj);
-                setEndPointPosition(connectPosition);
-                endPoint = drawObj.getConnectedPoint(connectPosition); // update end point
+            connectPackage = drawObj.isConnectToObj(endPoint);
+            if (connectPackage.position != null && drawObj != startPointObject) {
+                setEndPointObject(connectPackage.drawObj);
+                setEndPointPosition(connectPackage.position);
+                endPoint = endPointObject.getConnectedPoint(endPointPosition); // update end point
                 return true;
             }
         }

@@ -13,7 +13,6 @@ public class Drawable implements Comparable {
         return this.objDepth-compareDepth;
     }
 
-
     public enum CONNECT_POSITION {
         NORTH, EAST, SOUTH, WEST
     }

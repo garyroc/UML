@@ -80,7 +80,14 @@ public class DrawableCompositeBox extends DrawableObject {
         }
     }
 
-    public CONNECT_POSITION isConnectToObj(Point givenPoint) { return null; }
+    public LineConnectionPackage isConnectToObj(Point givenPoint) {
+        for (DrawableObject drawObj : compositeDrawObjList) {
+            if ((drawObj.isConnectToObj(givenPoint)).position != null ) {
+                return drawObj.isConnectToObj(givenPoint);
+            }
+        }
+        return new LineConnectionPackage(this,null);
+    }
 
     @Override
     public boolean checkPointOverlap(Point givenPoint) {

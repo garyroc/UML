@@ -124,12 +124,6 @@ public class DrawController {
         return drawingObjectList;
     }
 
-    private void createDrawingList() {
-        drawingObjectList = new ArrayList<Drawable>();
-        drawingObjectList.addAll(drawnObjList);
-        drawingObjectList.addAll(drawnLineList);
-    }
-
     private void lineCreateCheck(DrawableLine givenLineObj) {
         if (!(givenLineObj.starPointCheck(drawnObjList))) {
             drawnLineList.remove(givenLineObj); // delete last line obj, if it should not exist
@@ -152,7 +146,6 @@ public class DrawController {
     }
 
     private void selectObj(Point givenPoint) {
-//        unSelectAll();
         DrawableObject drawObj;
         /* reverse loop traverse */
         for (int i = drawnObjList.size()-1; i>=0 ; i--) {
@@ -231,11 +224,16 @@ public class DrawController {
     }
 
     public void reNameFunction(String givenName) {
-//        ArrayList<Drawable> selectedObjList = getSelectedObj();
-//        if (selectedObjList.size() == 1) {
-//            Drawable renamingObj = selectedObjList.get(0);
-//            renamingObj.setText(givenName);
-//        }
+        ArrayList<DrawableObject> selectedObjList = new ArrayList<>();
+        for (DrawableObject drawObj : drawnObjList) {
+            if (drawObj.getSelectedState()) {
+                selectedObjList.add(drawObj);
+            }
+        }
+        /* Make sure only one object has selected */
+        if (selectedObjList.size() == 1) {
+            selectedObjList.get(0).setText(givenName);
+        }
     }
 
     public void refreshCanvas() {

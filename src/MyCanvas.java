@@ -6,10 +6,10 @@ import java.awt.event.*;
 import java.util.*;
 
 public class MyCanvas extends JPanel {
-    protected ArrayList<Drawable> theDrawedObjectList = new ArrayList<Drawable>();
+    protected ArrayList<Drawable> theDrawnObjectList = new ArrayList<>();
     protected Point startPoint, endPoint;
     protected DrawController theDrawController;
-    protected boolean mousedrage = false;
+    protected boolean mouseDrag = false;
 
     public MyCanvas(DrawController theMainDrawController) {
         theDrawController = theMainDrawController;
@@ -19,25 +19,25 @@ public class MyCanvas extends JPanel {
                 startPoint = new Point(e.getX(), e.getY());
                 endPoint = new Point(e.getX(), e.getY());
                 theDrawController.createDrawObj(startPoint,endPoint);
-                theDrawedObjectList = theDrawController.getDrawingList();
+                theDrawnObjectList = theDrawController.getDrawingList();
                 repaint();
             }
 
             public void mouseReleased(MouseEvent e) {
                 endPoint = new Point(e.getX(), e.getY());
                 theDrawController.checkDrawObj(startPoint,endPoint);
-                theDrawedObjectList = theDrawController.getDrawingList();
-                mousedrage = false;
+                theDrawnObjectList = theDrawController.getDrawingList();
+                mouseDrag = false;
                 endPoint = null;
                 repaint();
             }
         });
         this.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
-                mousedrage = true;
+                mouseDrag = true;
                 endPoint = new Point(e.getX(),e.getY());
                 theDrawController.detectMouseDrag(startPoint,endPoint);
-                theDrawedObjectList = theDrawController.getDrawingList();
+                theDrawnObjectList = theDrawController.getDrawingList();
                 repaint();
             }
         });
@@ -51,14 +51,14 @@ public class MyCanvas extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for ( Drawable needDrawedObject : theDrawedObjectList) {
+        for ( Drawable needDrawedObject : theDrawnObjectList) {
             needDrawedObject.paintObject(g);
         }
 
     }
 
     public void updateCanvas() {
-        theDrawedObjectList = theDrawController.getDrawingList();
+        theDrawnObjectList = theDrawController.getDrawingList();
         repaint();
     }
 

@@ -36,7 +36,7 @@ public class DrawableObject extends Drawable implements CompositePortocolInterfa
     public Point getSouthPoint() { return southPoint; }
     public Point getWestPoint() {return westPoint; }
 
-    public CONNECT_POSITION isConnectToObj(Point givenPoint) {
+    public LineConnectionPackage isConnectToObj(Point givenPoint) {
         CONNECT_POSITION resultPosition = null;
         if (checkPointOverlap(givenPoint)) {
             /* Calculate nearest connect position */
@@ -66,7 +66,7 @@ public class DrawableObject extends Drawable implements CompositePortocolInterfa
                 }
             }
         }
-        return resultPosition; //if is overlap give closest point otherwise give null
+        return new LineConnectionPackage(this,resultPosition); //if is overlap give closest point otherwise give null
     }
 
     public void updateDrawableObj(Point givenNewPoint) {    }
