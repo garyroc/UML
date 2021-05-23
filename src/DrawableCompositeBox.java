@@ -7,7 +7,7 @@ public class DrawableCompositeBox extends DrawableObject {
     protected Point oriRightDownPoint;
     protected ArrayList<DrawableObject> compositeDrawObjList;
 
-    public DrawableCompositeBox(ArrayList<DrawableObject> givenDrawObjList) {
+    public DrawableCompositeBox(ArrayList<DrawableObject> givenDrawObjList , int givenDepth) {
         text = "Composite";
         initialCompositeDrawObj(givenDrawObjList);
         leftUpPoint = getChildLeftUpPoint();

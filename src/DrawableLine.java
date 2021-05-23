@@ -18,6 +18,7 @@ public class DrawableLine extends Drawable {
 
     public Point getStartPoint() { return startPoint; }
     public Point getEndPoint() { return endPoint; }
+    public void setStartPoint(Point givenPoint) { startPoint = givenPoint; }
     public void setEndPoint(Point givenPoint) { endPoint = givenPoint; }
     public void setEndPoint() {
         endPoint = endPointObject.getConnectedPoint(endPointPosition);
@@ -59,5 +60,10 @@ public class DrawableLine extends Drawable {
             }
         }
         return false;
+    }
+
+    public void updateLinePosition() {
+        setStartPoint(startPointObject.getConnectedPoint(startPointPosition));
+        setEndPoint(endPointObject.getConnectedPoint(endPointPosition));
     }
 }

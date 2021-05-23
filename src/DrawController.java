@@ -22,6 +22,7 @@ public class DrawController {
 
     public void createDrawObj(Point givenStartPoint, Point givenEndPoint) {
         DrawableObject resultDrawObject = null;
+        unSelectAll();
         switch (currentState) {
             case SELECT:
                 selectObj(givenStartPoint);
@@ -151,7 +152,7 @@ public class DrawController {
     }
 
     private void selectObj(Point givenPoint) {
-        unSelectAll();
+//        unSelectAll();
         DrawableObject drawObj;
         /* reverse loop traverse */
         for (int i = drawnObjList.size()-1; i>=0 ; i--) {
@@ -181,10 +182,12 @@ public class DrawController {
     }
 
     public void groupObj() {
-        DrawableCompositeBox compositeBox = new DrawableCompositeBox(drawnObjList);
+        DrawableCompositeBox compositeBox = new DrawableCompositeBox(drawnObjList,mainDepth);
         drawnObjList.add(compositeBox);
+        mainDepth++;
         if (compositeBox.getChildrenSize() <= 1) {
             unGroupObj();
+            mainDepth--;
         }
     }
 
@@ -209,6 +212,7 @@ public class DrawController {
                 drawObj.moveDrawableObj(x_mov,y_mov);
             }
         }
+        updateAllLinePosition();
     }
 
     private void finishMoveObject() {
@@ -217,21 +221,13 @@ public class DrawController {
                 drawObj.finishMovement();
             }
         }
+        updateAllLinePosition();
     }
 
-    private void updateAllLineConnection(){
-//        DrawableLine updatingLineObj;
-//        Drawable connectTargetObj;
-//        createDrawingList(mainCompositeTree);
-//        for (Drawable drawObj : drawingObjectList) {
-//            if (drawObj.isLineObj()) {
-//                updatingLineObj = (DrawableLine) drawObj;
-//                connectTargetObj = updatingLineObj.getStartPointObject();
-//                updatingLineObj.setStartPoint(connectTargetObj.getConnectedPoint(updatingLineObj.getStartPointPosition()));
-//                connectTargetObj = updatingLineObj.getEndPointObject();
-//                updatingLineObj.setEndPoint(connectTargetObj.getConnectedPoint(updatingLineObj.getEndPointPosition()));
-//            }
-//        }
+    private void updateAllLinePosition() {
+        for (DrawableLine drawLine : drawnLineList) {
+            drawLine.updateLinePosition();
+        }
     }
 
     public void reNameFunction(String givenName) {
