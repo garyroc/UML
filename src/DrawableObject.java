@@ -70,7 +70,6 @@ public class DrawableObject extends Drawable implements CompositePortocolInterfa
     }
 
     public void updateDrawableObj(Point givenNewPoint) {    }
-    public int getChildrenSize() { return 0; }
 
 
     public DrawableObject composeObj(){

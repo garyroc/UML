@@ -181,7 +181,7 @@ public class DrawController {
     }
 
     public void groupObj() {
-        DrawableObject compositeBox = new DrawableCompositeBox(drawnObjList);
+        DrawableCompositeBox compositeBox = new DrawableCompositeBox(drawnObjList);
         drawnObjList.add(compositeBox);
         if (compositeBox.getChildrenSize() <= 1) {
             unGroupObj();

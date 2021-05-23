@@ -2,10 +2,8 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public class DrawableClass extends DrawableObject {
-    private static int OFFSET_CORRECTION = 40;
-    private int width = 100;
-    private int height = 40;
-    private int connectionPointSize = 10;
+    private final int width = 100;
+    private final int height = 40;
     private Rectangle2D objArea; //For check point overlap purpose
 
     public DrawableClass(Point givenPoint, int givenDepth) {
@@ -23,6 +21,7 @@ public class DrawableClass extends DrawableObject {
 
     @Override
     protected void paintObject(Graphics g) {
+        int offsetCorrection = 40;
         Point drawingPoint;
         if (this.getSelectedState()) {
             drawingPoint = leftUpPoint;
@@ -35,11 +34,13 @@ public class DrawableClass extends DrawableObject {
         //Paint Body
         g.setColor(Color.BLACK);
         g.drawRect(drawingPoint.x, drawingPoint.y, width, height);
-        g.drawRect(drawingPoint.x, drawingPoint.y+OFFSET_CORRECTION, width, height);
-        g.drawRect(drawingPoint.x, drawingPoint.y+2*OFFSET_CORRECTION, width, height);
+
+        g.drawRect(drawingPoint.x, drawingPoint.y+ offsetCorrection, width, height);
+        g.drawRect(drawingPoint.x, drawingPoint.y+2* offsetCorrection, width, height);
         g.drawRect(drawingPoint.x-2,drawingPoint.y-2, width+4, 3* height +4);
         //Paint connection point
         if (getSelectedState()) {
+            int connectionPointSize = 10;
             g.fillRect(northPoint.x, northPoint.y- connectionPointSize, connectionPointSize, connectionPointSize);
             g.fillRect(eastPoint.x, eastPoint.y, connectionPointSize, connectionPointSize);
             g.fillRect(southPoint.x, southPoint.y, connectionPointSize, connectionPointSize);
@@ -69,6 +70,7 @@ public class DrawableClass extends DrawableObject {
     public boolean checkPointOverlap(Point givenPoint) {
         return objArea.contains(givenPoint);
     }
+
     @Override
     public boolean checkHoleObjectOverlap(Shape givenShape) {
         if (givenShape.contains(this.getNorthPoint()) && givenShape.contains(this.getEastPoint()) && givenShape.contains(this.getSouthPoint()) && givenShape.contains(this.getWestPoint())) {
@@ -78,6 +80,7 @@ public class DrawableClass extends DrawableObject {
         return false;
     }
 
+    @Override
     public DrawableObject composeObj(){
         return this;
     }
