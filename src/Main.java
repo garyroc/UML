@@ -1,3 +1,9 @@
+import Draw.DrawController;
+import Draw.MyCanvas;
+import PaintToolButton.VerticalButton;
+import PaintToolButton.VerticalButtonController;
+import Toolbar.ToolbarEditButton;
+
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
