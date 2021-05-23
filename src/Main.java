@@ -2,7 +2,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class StartMain {
+public class Main {
     public JFrame theMainFrame;
     public JPanel theToolbarPositionPanel;
     public JPanel theToolbarPanel;
@@ -10,7 +10,7 @@ public class StartMain {
     ArrayList<VerticalButton> verticalButtonList = new ArrayList<VerticalButton>();
 
     public static void main(String[] args) {
-        new StartMain().buildGUI();
+        new Main().buildGUI();
     }
 
     public void buildGUI() {

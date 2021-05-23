@@ -10,7 +10,7 @@ public class DrawableLine extends Drawable {
     protected CONNECT_POSITION endPointPosition = null;
 
     public DrawableLine(Point givenStartPoint, Point givenEndPoint, int givenDepth) {
-        super(givenStartPoint, givenDepth);
+        super(givenDepth);
         startPoint = givenStartPoint;
         endPoint = givenEndPoint;
         selectedState = true;
@@ -20,9 +20,6 @@ public class DrawableLine extends Drawable {
     public Point getEndPoint() { return endPoint; }
     public void setStartPoint(Point givenPoint) { startPoint = givenPoint; }
     public void setEndPoint(Point givenPoint) { endPoint = givenPoint; }
-    public void setEndPoint() {
-        endPoint = endPointObject.getConnectedPoint(endPointPosition);
-    }
 
     public void setStartPointObject(DrawableObject givenObj) { startPointObject = givenObj; }
     public void setEndPointObject(DrawableObject givenObj) { endPointObject = givenObj; }

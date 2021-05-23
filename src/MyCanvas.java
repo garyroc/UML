@@ -51,15 +51,13 @@ public class MyCanvas extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for ( Drawable needDrawedObject : theDrawnObjectList) {
-            needDrawedObject.paintObject(g);
+        for ( Drawable needDrawObject : theDrawnObjectList) {
+            needDrawObject.paintObject(g);
         }
-
     }
 
     public void updateCanvas() {
         theDrawnObjectList = theDrawController.getDrawingList();
         repaint();
     }
-
 }

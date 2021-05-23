@@ -8,6 +8,7 @@ public class DrawableCompositeBox extends DrawableObject {
     protected ArrayList<DrawableObject> compositeDrawObjList;
 
     public DrawableCompositeBox(ArrayList<DrawableObject> givenDrawObjList , int givenDepth) {
+        this.objDepth = givenDepth;
         text = "Composite";
         initialCompositeDrawObj(givenDrawObjList);
         leftUpPoint = getChildLeftUpPoint();

@@ -16,7 +16,7 @@ public class DrawableObject extends Drawable implements CompositePortocolInterfa
     }
 
     public DrawableObject(Point givenPoint, int givenDepth) {
-        super(givenPoint,givenDepth);
+        super(givenDepth);
         leftUpPoint = givenPoint;
     }
 

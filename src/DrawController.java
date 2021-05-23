@@ -7,11 +7,10 @@ public class DrawController {
     private PAINT_TOOL currentState = PAINT_TOOL.THE_CLASSOBJECT;
     protected ArrayList<Drawable> drawingObjectList;
 
-    private ArrayList<DrawableObject> drawnObjList = new ArrayList<DrawableObject>();
-    private ArrayList<DrawableLine> drawnLineList = new ArrayList<DrawableLine>();
+    private final ArrayList<DrawableObject> drawnObjList = new ArrayList<>();
+    private final ArrayList<DrawableLine> drawnLineList = new ArrayList<>();
 
     private int mainDepth = 0;
-    private boolean movingObj =  false;
     private MyCanvas theMainCanvas;
 
     public enum PAINT_TOOL {
@@ -117,7 +116,7 @@ public class DrawController {
     }
 
     public ArrayList<Drawable> getDrawingList() {
-        drawingObjectList = new ArrayList<Drawable>();
+        drawingObjectList = new ArrayList<>();
         drawingObjectList.addAll(drawnObjList);
         drawingObjectList.addAll(drawnLineList);
         Collections.sort(drawingObjectList);
