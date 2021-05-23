@@ -179,30 +179,43 @@ public class DrawController {
         return false;
     }
 
-    private ArrayList<CompositeProtocol> newTraversalCompositeTree (ArrayList<CompositeProtocol> givenCompositeTree) {
-        ArrayList<CompositeProtocol> resultList = new ArrayList<CompositeProtocol>();
-        ArrayList<CompositeProtocol> tempList;
-        for (CompositeProtocol traversingTreeMember : givenCompositeTree) {
-            if (traversingTreeMember.myType == CompositeProtocol.OBJ_TYPE.COMPOSITE_OBJ) {
-                tempList = newTraversalCompositeTree(((CompositeTypeObj) traversingTreeMember).getTheCompositeList());
-                resultList.addAll(tempList);
-            }
-            else {
-                resultList.add(traversingTreeMember);
+    private boolean checkMultipleObjSelected() {
+        int selectedObjNum = 0;
+        for (DrawableObject drawObj : drawnObjList) {
+            if (drawObj.getSelectedState()) {
+                selectedObjNum++;
             }
         }
-        return resultList;
+        if (selectedObjNum > 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public void groupObj() {
-
+        DrawableObject compositeBox = new DrawableCompositeBox(drawnObjList);
+        drawnObjList.add(compositeBox);
+        if (compositeBox.getChildrenSize() <= 1) {
+            unGroupObj();
+        }
     }
 
     public void unGroupObj() {
+        ArrayList<DrawableObject> deletingObj = new ArrayList<>();
+        ArrayList<DrawableObject> decomposeObjList = new ArrayList<>();
+        for (DrawableObject drawObj : drawnObjList) {
+            if (drawObj.deComposeObj() != null ) {
+                decomposeObjList.addAll(drawObj.deComposeObj());
+                deletingObj.add(drawObj);
+            }
+        }
+        drawnObjList.removeAll(deletingObj);
+        drawnObjList.addAll(decomposeObjList);
     }
 
     private ArrayList<Drawable> getSelectedObj() {
-
         return null;
     }
 

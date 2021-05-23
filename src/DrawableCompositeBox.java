@@ -1,16 +1,15 @@
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 public class DrawableCompositeBox extends DrawableObject {
-    CompositeTypeObj belongedCompObj;
     private Rectangle2D objArea;
-//    protected Point oriStartPoint;
     protected Point oriRightDownPoint;
+    protected ArrayList<DrawableObject> compositeDrawObjList;
 
     public DrawableCompositeBox(Point givenStartPoint, Point givenEndPoint, int givenDepth, CompositeTypeObj givenCompositeTypeObj) {
         super(givenStartPoint,givenDepth);
         text = "Composite";
-        belongedCompObj = givenCompositeTypeObj;
         rightDownPoint = givenEndPoint;
         objArea = makeRectangle(leftUpPoint.x,leftUpPoint.y, rightDownPoint.x, rightDownPoint.y);
         oriLeftUpPoint = new Point(0,0);
@@ -20,6 +19,50 @@ public class DrawableCompositeBox extends DrawableObject {
         oriRightDownPoint.x = rightDownPoint.x;
         oriRightDownPoint.y = rightDownPoint.y;
     }
+
+    public DrawableCompositeBox(ArrayList<DrawableObject> givenDrawObjList) {
+        text = "Composite";
+        initialCompositeDrawObj(givenDrawObjList);
+        leftUpPoint = getChildLeftUpPoint();
+        rightDownPoint = getChildRightDownPoint();
+        objArea = makeRectangle(leftUpPoint.x,leftUpPoint.y, rightDownPoint.x, rightDownPoint.y);
+        oriLeftUpPoint = new Point(leftUpPoint.x,leftUpPoint.y);
+        oriRightDownPoint = new Point(rightDownPoint.x,rightDownPoint.y);
+    }
+
+    private void initialCompositeDrawObj(ArrayList<DrawableObject> givenDrawObjList){
+        compositeDrawObjList = new ArrayList<>();
+        for (DrawableObject drawObj : givenDrawObjList) {
+            if (drawObj.getSelectedState()) {
+                compositeDrawObjList.add(drawObj.composeObj());
+            }
+        }
+        /* In order to avoid ConcurrentModificationException */
+        for (DrawableObject drawObj : compositeDrawObjList) {
+            givenDrawObjList.remove(drawObj);
+        }
+    }
+
+    private Point getChildLeftUpPoint() {
+        int leftUpX = 99999999;
+        int leftUpY = 99999999;
+        for (DrawableObject drawObj : compositeDrawObjList) {
+            leftUpX = Math.min(leftUpX, drawObj.getLeftUpPoint().x);
+            leftUpY = Math.min(leftUpY, drawObj.getLeftUpPoint().y);
+        }
+        return new Point(leftUpX,leftUpY);
+    }
+
+    private Point getChildRightDownPoint() {
+        int rightDownX = 0;
+        int rightDownY = 0;
+        for (DrawableObject drawObj : compositeDrawObjList) {
+            rightDownX = Math.max(rightDownX, drawObj.getRightDownPoint().x);
+            rightDownY = Math.max(rightDownY, drawObj.getRightDownPoint().y);
+        }
+        return new Point(rightDownX,rightDownY);
+    }
+
 
     @Override
     protected void paintObject(Graphics g) {
@@ -36,6 +79,10 @@ public class DrawableCompositeBox extends DrawableObject {
             g2.setColor(Color.RED);
             g2.draw(objArea);
             g.drawString(text,oriLeftUpPoint.x,oriLeftUpPoint.y-10);
+        }
+        /*  Paint child */
+        for (DrawableObject drawObj : compositeDrawObjList) {
+            drawObj.paintObject(g);
         }
     }
 
@@ -58,7 +105,10 @@ public class DrawableCompositeBox extends DrawableObject {
     @Override
     public void setSelectedState(boolean givenValue) {
         selectedState = givenValue;
-        belongedCompObj.setBelongObjSelected(givenValue);
+        /* Set Child selected */
+        for (DrawableObject drawObj : compositeDrawObjList) {
+            drawObj.setSelectedState(givenValue);
+        }
     }
 
     public CONNECT_POSITION isConnectToObj(Point givenPoint) { return null; }
@@ -69,14 +119,26 @@ public class DrawableCompositeBox extends DrawableObject {
     }
     @Override
     public boolean checkHoleObjectOverlap(Shape givenShape) {
-        boolean testResult = false;
-        if (givenShape.contains(this.getLeftUpPoint()) && givenShape.contains(this.getRightDownPoint())) {
-            testResult = true;
+        if (givenShape.contains(leftUpPoint) && givenShape.contains(rightDownPoint)) {
+            this.setSelectedState(true);
+            return true;
         }
-        return testResult;
+        return false;
     }
 
     private Rectangle2D.Float makeRectangle(int x1, int y1, int x2, int y2) {
         return new Rectangle2D.Float(Math.min(x1, x2)-6, Math.min(y1, y2)-6, Math.abs(x1 - x2)+10, Math.abs(y1 - y2)+10);
+    }
+
+    public int getChildrenSize() {
+        return compositeDrawObjList.size();
+    }
+
+    public DrawableObject composeObj(){
+        return this;
+    }
+
+    public ArrayList<DrawableObject> deComposeObj() {
+        return compositeDrawObjList;
     }
 }

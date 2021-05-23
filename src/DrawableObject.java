@@ -11,6 +11,10 @@ public class DrawableObject extends Drawable implements CompositePortocolInterfa
     protected Point southPoint = null;
     protected Point westPoint = null;
 
+    public DrawableObject() {
+
+    }
+
     public DrawableObject(Point givenPoint, int givenDepth) {
         super(givenPoint,givenDepth);
         leftUpPoint = givenPoint;
@@ -76,11 +80,13 @@ public class DrawableObject extends Drawable implements CompositePortocolInterfa
     }
 
     public void updateDrawableObj(Point givenNewPoint) {    }
+    public int getChildrenSize() { return 0;  }
 
-    public ArrayList<Drawable> composeObj(){
+
+    public DrawableObject composeObj(){
         return null;
     }
-    public ArrayList<Drawable> deComposeObj(){
+    public ArrayList<DrawableObject> deComposeObj() {
         return null;
     }
 }

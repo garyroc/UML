@@ -1,12 +1,12 @@
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 public class DrawableUseCase extends DrawableObject{
     private int width = 100;
     private int height = 50;
     private int connectionPointWidth = 10;
     private int connectionPointOffset = 7;
-//    protected Point oriStartPoint;
     private Ellipse2D.Double objArea;
 
     public DrawableUseCase(Point givenPoint, int givenDepth) {
@@ -81,10 +81,14 @@ public class DrawableUseCase extends DrawableObject{
     }
     @Override
     public boolean checkHoleObjectOverlap(Shape givenShape) {
-        boolean testResult = false;
         if (givenShape.contains(this.getNorthPoint()) && givenShape.contains(this.getEastPoint()) && givenShape.contains(this.getSouthPoint()) && givenShape.contains(this.getWestPoint())) {
+            this.setSelectedState(true);
             return true;
         }
         return false;
+    }
+
+    public DrawableObject composeObj(){
+        return this;
     }
 }

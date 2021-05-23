@@ -18,6 +18,10 @@ public class Drawable implements Comparable {
         NORTH, EAST, SOUTH, WEST
     }
 
+    public Drawable() {
+
+    }
+
     public Drawable(Point givenPoint, int givenDepth) {
         this.objDepth = givenDepth;
     }
